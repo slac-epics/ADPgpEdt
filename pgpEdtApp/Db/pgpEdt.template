@@ -42,6 +42,14 @@ record(longout, "$(P)$(R)SSUS")
     info( autosaveFields, "VAL" )
 }
 
+record(longin, "$(P)$(R)BitsPerPixel_RBV")
+{
+    field(DESC, "# of Bits Per Pixel")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))nbit")
+    field(SCAN, "I/O Intr")
+}
+
 record(bo, "$(P)$(R)Pack")
 {
     field(DESC, "MGT Pack 24 or 16")
