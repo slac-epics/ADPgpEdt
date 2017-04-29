@@ -1,0 +1,305 @@
+# Database for the records specific to the SLAC cameralink frame grabber
+#
+# Dehong Zhang
+# Sept 20, 2016
+
+record(ao, "$(P)$(R)PixelSize")
+{
+    field(DESC, "Pixel Size")
+    field(VAL,  "0")
+    field(EGU,  "um")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(mbbo, "$(P)$(R)Baud")
+{
+    field(DESC, "Serial Baud Rate")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))baud")
+    field(ZRST,   "9600")
+    field(ZRVL,   "9600")
+    field(ONST,  "19200")
+    field(ONVL,  "19200")
+    field(TWST,  "38400")
+    field(TWVL,  "38400")
+    field(THST,  "57600")
+    field(THVL,  "57600")
+    field(FRST, "115200")
+    field(FRVL, "115200")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(longout, "$(P)$(R)SSUS")
+{
+    field(DESC, "Us Between Serial Commands")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))ssus")
+    field(EGU,  "us")
+    field(VAL,  "200000")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(bo, "$(P)$(R)Pack")
+{
+    field(DESC, "MGT Pack 24 or 16")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))pack")
+    field(ZNAM, "24")
+    field(ONAM, "16")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(mbbo, "$(P)$(R)VOut")
+{
+    field(DESC, "Video Output Order")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))vOut")
+    field(ZRST, "Top Down")
+    field(ZRVL, "0")
+    field(ONST, "Top & Bottom")
+    field(ONVL, "1")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(longout, "$(P)$(R)FullNRow")
+{
+    field(DESC, "Full Frame Number of Rows")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))fullNRow")
+    field(VAL,  "1024")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(longout, "$(P)$(R)FullNCol")
+{
+    field(DESC, "Full Frame Number of Columns")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))fullNCol")
+    field(VAL,  "1024")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(longin, "$(P)$(R)NumRow")
+{
+    field(DESC, "Actual Number of Rows")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))numRow")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)NumCol")
+{
+    field(DESC, "Actual Number of Columns")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))numCol")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)NumTrains")
+{
+    field(DESC, "Number of MGT Trains")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))numTrains")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)NumCycles")
+{
+    field(DESC, "Number of MGT Cycles")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))numCycles")
+    field(SCAN, "I/O Intr")
+}
+
+record(mbbo, "$(P)$(R)CC")
+{
+    field(DESC, "Trigger Line (CC1-4)")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))cc")
+    field(ZRST, "CC1")
+    field(ZRVL, "0")
+    field(ONST, "CC2")
+    field(ONVL, "1")
+    field(TWST, "CC3")
+    field(TWVL, "2")
+    field(THST, "CC4")
+    field(THVL, "3")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(bo, "$(P)$(R)TrgPolarity")
+{
+    field(DESC, "Trigger Polarity")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))polarity")
+    field(ZNAM, "Normal")
+    field(ONAM, "Inverted")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(mbbo, "$(P)$(R)EvrPrescale")
+{
+    field(DESC, "EVR Prescale")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))prescale")
+    field(ZRST, "119 : 1 us")
+    field(ZRVL, "119")
+    field(ONST, "1 : 1/119 us")
+    field(ONVL, "1")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(longout, "$(P)$(R)TrgCode")
+{
+    field(DESC, "EVR Trigger Code")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))code")
+    field(VAL,  "140")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(longout, "$(P)$(R)TrgDelay")
+{
+    field(DESC, "EVR Trigger Delay")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))delay")
+    field(VAL,  "800")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(longout, "$(P)$(R)TrgWidth")
+{
+    field(DESC, "EVR Trigger Width")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))width")
+    field(VAL,  "200")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(longin, "$(P)$(R)Trg2Frame")
+{
+    field(DESC, "Cycles From Trigger to Frame Valid")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))trg2frame")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)FrameRate")
+{
+    field(DESC, "Frame Rate")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))frameRate")
+    field(SCAN, "I/O Intr")
+}
+
+record(longin, "$(P)$(R)StatusWord")
+{
+    field(DESC, "Status Word")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))csta")
+    field(SCAN, "I/O Intr")
+}
+
+record(stringout, "$(P)$(R)CmdInit")
+{
+    field(DESC, "Initialization Commands")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))cmdInit")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(stringout, "$(P)$(R)CmdFull")
+{
+    field(DESC, "Full Frame Commands")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))cmdFull")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(stringout, "$(P)$(R)CmdROI")
+{
+    field(DESC, "HW ROI Commands")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))cmdROI")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(stringout, "$(P)$(R)CmdEVR")
+{
+    field(DESC, "EVR Trigger Commands")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))cmdEVR")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(stringout, "$(P)$(R)CmdFree")
+{
+    field(DESC, "Free Run Commands")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))cmdFree")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(stringout, "$(P)$(R)CmdTPtn")
+{
+    field(DESC, "Test Pattern Command")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))cmdTPtn")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(stringout, "$(P)$(R)CMD")
+{
+    field(DESC, "Debug Command")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))cmdAny")
+}
+
+record(stringin, "$(P)$(R)Resp")
+{
+    field(DESC, "Response to Debug Command")
+    field(DTYP, "asynOctetRead")
+    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))resp")
+    field(SCAN, "I/O Intr")
+}
+
+record(bo, "$(P)$(R)ExposureMode")
+{
+    field(DESC, "Full Frame / HW ROI")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))exposure")
+    field(ZNAM, "Full Frame")
+    field(ONAM, "HW ROI")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(bo, "$(P)$(R)TestPattern")
+{
+    field(DESC, "Turn On/Off Test Pattern")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))tstPtn")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(PINI, "YES")
+}
+
