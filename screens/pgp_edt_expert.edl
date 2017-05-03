@@ -6,7 +6,7 @@ release 1
 x 900
 y 500
 w 828
-h 410
+h 438
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-medium-r-18.0"
 btnFont "helvetica-medium-r-18.0"
@@ -76,13 +76,34 @@ bgColor index 56
 font "helvetica-medium-r-12.0"
 endObjectProperties
 
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 150
+y 8
+w 120
+h 24
+fgColor index 25
+bgColor index 4
+selectColor index 30
+inconsistentColor index 14
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(CAMERA):Acquire"
+font "helvetica-bold-r-12.0"
+orientation "horizontal"
+endObjectProperties
+
 # (Message Button)
 object activeMessageButtonClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 218
+x 300
 y 8
 w 120
 h 24
@@ -100,25 +121,33 @@ useEnumNumeric
 font "helvetica-bold-r-12.0"
 endObjectProperties
 
-# (Choice Button)
-object activeChoiceButtonClass
+# (Related Display)
+object relatedDisplayClass
 beginObjectProperties
 major 4
-minor 0
+minor 2
 release 0
-x 415
+x 450
 y 8
 w 120
 h 24
 fgColor index 25
 bgColor index 4
-selectColor index 30
-inconsistentColor index 14
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(CAMERA):Acquire"
 font "helvetica-bold-r-12.0"
-orientation "horizontal"
+buttonLabel "Aux Settings"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "$(MODEL)_Aux.edl"
+}
+menuLabel {
+  0 "Aux Settings"
+}
+symbols {
+  0 "CAMERA=$(CAMERA)"
+}
 endObjectProperties
 
 # (Related Display)
@@ -127,7 +156,7 @@ beginObjectProperties
 major 4
 minor 2
 release 0
-x 612
+x 600
 y 8
 w 120
 h 24
@@ -144,9 +173,6 @@ displayFileName {
 }
 menuLabel {
   0 "Serial Commands"
-}
-symbols {
-  0 "MODEL=$(MODEL)"
 }
 endObjectProperties
 
@@ -178,7 +204,7 @@ release 0
 x 4
 y 52
 w 408
-h 100
+h 128
 lineColor index 3
 fill
 fillColor index 3
@@ -261,7 +287,7 @@ fgColor index 14
 bgColor index 0
 useDisplayBg
 value {
-  "Max Rows"
+  "No. of Bits"
 }
 endObjectProperties
 
@@ -275,7 +301,7 @@ x 106
 y 92
 w 96
 h 24
-controlPv "$(CAMERA):MaxSizeY_RBV"
+controlPv "$(CAMERA):BitsPerPixel_RBV"
 font "courier-bold-r-12.0"
 fontAlign "center"
 fgColor index 25
@@ -305,7 +331,7 @@ fgColor index 14
 bgColor index 0
 useDisplayBg
 value {
-  "Max Columns"
+  "Max Rows"
 }
 endObjectProperties
 
@@ -316,6 +342,170 @@ major 4
 minor 2
 release 0
 x 106
+y 120
+w 96
+h 24
+controlPv "$(CAMERA):MaxSizeY_RBV"
+font "courier-bold-r-12.0"
+fontAlign "center"
+fgColor index 25
+bgColor index 3
+useDisplayBg
+editable
+motifWidget
+limitsFromDb
+nullColor index 18
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 16
+y 148
+w 85
+h 24
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Skip Rows"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 106
+y 148
+w 96
+h 24
+controlPv "$(CAMERA):SkipRow"
+font "courier-bold-r-12.0"
+fontAlign "center"
+fgColor index 25
+bgColor index 3
+useDisplayBg
+editable
+motifWidget
+limitsFromDb
+nullColor index 18
+fastUpdate
+newPos
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 220
+y 64
+w 85
+h 24
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Pack16 / 24"
+}
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 64
+w 95
+h 24
+fgColor index 25
+bgColor index 4
+inconsistentColor index 14
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(CAMERA):Pack"
+font "courier-bold-r-12.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 220
+y 92
+w 85
+h 24
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Video Output"
+}
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 310
+y 92
+w 95
+h 24
+fgColor index 25
+bgColor index 4
+inconsistentColor index 14
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(CAMERA):VOut"
+font "courier-bold-r-12.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 220
+y 120
+w 85
+h 24
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Max Columns"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 2
+release 0
+x 310
 y 120
 w 96
 h 24
@@ -341,7 +531,7 @@ major 4
 minor 1
 release 0
 x 220
-y 64
+y 148
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -349,7 +539,7 @@ fgColor index 14
 bgColor index 0
 useDisplayBg
 value {
-  "No. of Bits"
+  "Skip Columns"
 }
 endObjectProperties
 
@@ -360,10 +550,10 @@ major 4
 minor 2
 release 0
 x 310
-y 64
+y 148
 w 96
 h 24
-controlPv "$(CAMERA):BitsPerPixel_RBV"
+controlPv "$(CAMERA):SkipCol"
 font "courier-bold-r-12.0"
 fontAlign "center"
 fgColor index 25
@@ -378,82 +568,6 @@ newPos
 objType "controls"
 endObjectProperties
 
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 220
-y 92
-w 85
-h 24
-font "helvetica-medium-r-12.0"
-fgColor index 14
-bgColor index 0
-useDisplayBg
-value {
-  "Pack16 / 24"
-}
-endObjectProperties
-
-# (Menu Button)
-object activeMenuButtonClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 310
-y 92
-w 95
-h 24
-fgColor index 25
-bgColor index 4
-inconsistentColor index 14
-topShadowColor index 1
-botShadowColor index 11
-controlPv "$(CAMERA):Pack"
-font "courier-bold-r-12.0"
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 220
-y 120
-w 85
-h 24
-font "helvetica-medium-r-12.0"
-fgColor index 14
-bgColor index 0
-useDisplayBg
-value {
-  "Video Output"
-}
-endObjectProperties
-
-# (Menu Button)
-object activeMenuButtonClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 310
-y 120
-w 95
-h 24
-fgColor index 25
-bgColor index 4
-inconsistentColor index 14
-topShadowColor index 1
-botShadowColor index 11
-controlPv "$(CAMERA):VOut"
-font "courier-bold-r-12.0"
-endObjectProperties
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
@@ -461,7 +575,7 @@ major 4
 minor 0
 release 0
 x 4
-y 164
+y 192
 w 408
 h 44
 lineColor index 3
@@ -476,7 +590,7 @@ major 4
 minor 1
 release 0
 x 4
-y 156
+y 184
 w 70
 h 24
 font "helvetica-bold-r-12.0"
@@ -494,7 +608,7 @@ major 4
 minor 1
 release 0
 x 16
-y 176
+y 204
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -513,7 +627,7 @@ major 4
 minor 2
 release 0
 x 106
-y 176
+y 204
 w 96
 h 24
 controlPv "$(CAMERA):FullNRow"
@@ -538,7 +652,7 @@ major 4
 minor 1
 release 0
 x 220
-y 176
+y 204
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -557,7 +671,7 @@ major 4
 minor 2
 release 0
 x 310
-y 176
+y 204
 w 96
 h 24
 controlPv "$(CAMERA):FullNCol"
@@ -582,7 +696,7 @@ major 4
 minor 0
 release 0
 x 4
-y 220
+y 248
 w 408
 h 72
 lineColor index 3
@@ -597,7 +711,7 @@ major 4
 minor 1
 release 0
 x 4
-y 212
+y 240
 w 95
 h 24
 font "helvetica-bold-r-12.0"
@@ -615,7 +729,7 @@ major 4
 minor 1
 release 0
 x 16
-y 232
+y 260
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -634,7 +748,7 @@ major 4
 minor 2
 release 0
 x 106
-y 232
+y 260
 w 96
 h 24
 controlPv "$(CAMERA):MinY"
@@ -659,7 +773,7 @@ major 4
 minor 1
 release 0
 x 16
-y 260
+y 288
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -678,7 +792,7 @@ major 4
 minor 2
 release 0
 x 106
-y 260
+y 288
 w 96
 h 24
 controlPv "$(CAMERA):MinX"
@@ -703,7 +817,7 @@ major 4
 minor 1
 release 0
 x 220
-y 232
+y 260
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -722,7 +836,7 @@ major 4
 minor 2
 release 0
 x 310
-y 232
+y 260
 w 96
 h 24
 controlPv "$(CAMERA):SizeY"
@@ -747,7 +861,7 @@ major 4
 minor 1
 release 0
 x 220
-y 260
+y 288
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -766,7 +880,7 @@ major 4
 minor 2
 release 0
 x 310
-y 260
+y 288
 w 96
 h 24
 controlPv "$(CAMERA):SizeX"
@@ -791,7 +905,7 @@ major 4
 minor 0
 release 0
 x 4
-y 304
+y 332
 w 408
 h 100
 lineColor index 3
@@ -806,7 +920,7 @@ major 4
 minor 1
 release 0
 x 4
-y 296
+y 324
 w 105
 h 24
 font "helvetica-bold-r-12.0"
@@ -824,7 +938,7 @@ major 4
 minor 1
 release 0
 x 16
-y 316
+y 344
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -843,7 +957,7 @@ major 4
 minor 0
 release 0
 x 106
-y 316
+y 344
 w 95
 h 24
 fgColor index 25
@@ -862,7 +976,7 @@ major 4
 minor 1
 release 0
 x 16
-y 344
+y 372
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -881,7 +995,7 @@ major 4
 minor 0
 release 0
 x 106
-y 344
+y 372
 w 95
 h 24
 fgColor index 25
@@ -900,7 +1014,7 @@ major 4
 minor 1
 release 0
 x 16
-y 372
+y 400
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -919,7 +1033,7 @@ major 4
 minor 0
 release 0
 x 106
-y 372
+y 400
 w 95
 h 24
 fgColor index 25
@@ -938,7 +1052,7 @@ major 4
 minor 1
 release 0
 x 220
-y 316
+y 344
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -957,7 +1071,7 @@ major 4
 minor 2
 release 0
 x 310
-y 316
+y 344
 w 96
 h 24
 controlPv "$(CAMERA):TrgCode"
@@ -982,7 +1096,7 @@ major 4
 minor 1
 release 0
 x 220
-y 344
+y 372
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -1001,7 +1115,7 @@ major 4
 minor 2
 release 0
 x 310
-y 344
+y 372
 w 96
 h 24
 controlPv "$(CAMERA):TrgDelay"
@@ -1026,7 +1140,7 @@ major 4
 minor 1
 release 0
 x 220
-y 372
+y 400
 w 85
 h 24
 font "helvetica-medium-r-12.0"
@@ -1045,7 +1159,7 @@ major 4
 minor 2
 release 0
 x 310
-y 372
+y 400
 w 96
 h 24
 controlPv "$(CAMERA):TrgWidth"

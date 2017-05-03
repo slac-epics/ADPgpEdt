@@ -112,6 +112,8 @@ protected:
     int  nbit;                                            // # of bits per pixel
     int  pack;                                     // MGT pack: 0 -> 24; 1 -> 16
     int  vOut;           // video output order: 0 -> Top Down; 1 -> Top & Bottom
+    int  skipRow;                                                   // skip rows
+    int  skipCol;                                                // skip columns
     int  fullNRow;                                  // full frame number of rows
     int  fullNCol;                               // full frame number of columns
     int  numRow;                                               // number of rows
@@ -169,6 +171,8 @@ private:
 #define nbitString       "nbit"
 #define packString       "pack"
 #define vOutString       "vOut"
+#define skipRowString    "skipRow"
+#define skipColString    "skipCol"
 #define fullNRowString   "fullNRow"
 #define fullNColString   "fullNCol"
 #define numRowString     "numRow"
@@ -479,15 +483,21 @@ long pgpEdt::update_nrow_ncol( asynUser *pasynUser, int pass )
 long pgpEdt::update_ntrn_ncyc( asynUser *pasynUser, int pass )
 {
     epicsUInt32  rAddr;
-    int          nbitVal, packVal, voutVal, nrowVal, ncolVal, ntrnVal, ncycVal;
+    int          nbitVal, packVal, voutVal;
+    int          skiprVal, skipcVal, nrowVal, ncolVal, ntrnVal, ncycVal;
     long         status = 0;
 
-    getIntegerParam( nbit,   &nbitVal );
-    getIntegerParam( pack,   &packVal );
-    getIntegerParam( vOut,   &voutVal );
+    getIntegerParam( nbit,    &nbitVal  );
+    getIntegerParam( pack,    &packVal  );
+    getIntegerParam( vOut,    &voutVal  );
 
-    getIntegerParam( numRow, &nrowVal );
-    getIntegerParam( numCol, &ncolVal );
+    getIntegerParam( skipRow, &skiprVal );
+    getIntegerParam( skipCol, &skipcVal );
+    getIntegerParam( numRow,  &nrowVal  );
+    getIntegerParam( numCol,  &ncolVal  );
+
+    nrowVal += skiprVal;
+    ncolVal += skipcVal;
 
     if ( voutVal == pgpEdtVOut_TD )                      // readout line by line
     {
@@ -669,7 +679,8 @@ asynStatus pgpEdt::writeInt32( asynUser *pasynUser, epicsInt32 value )
 
         update_ntrn_ncyc( pasynUser );
     }
-    else if ( (param == pack    ) || (param == vOut    ) )
+    else if ( (param == pack    ) || (param == vOut    ) ||
+              (param == skipRow ) || (param == skipCol )    )
     {
         update_ntrn_ncyc( pasynUser );
     }
@@ -849,7 +860,8 @@ void pgpEdt::acqTask()
     epicsUInt16    *idat, icol, irow;
 
     size_t          dims[2];
-    int             maxNrow, maxNcol, nRow, nCol, nBit, pack16, vout;
+    int             nBit, pack16, vout;
+    int             maxNrow, maxNcol, sRow, sCol, nRow, nCol, tCol;
     uint            maxSize, cstaVal, lane, eofe, fifoErr, lengthErr;
     epicsTimeStamp  timeNow;
 
@@ -898,7 +910,7 @@ void pgpEdt::acqTask()
         ret = pgpcard_recv( pdev, (void *)rbuf, maxSize, &lane,
                             &eofe, &fifoErr, &lengthErr );
 
-        if ( ret == 0         ) continue;
+        if ( ret == 0 ) continue;
 
         asynPrint( pasynUserSelf, ASYN_TRACE_FLOW,
                    "%s:%s, acqTask: got image\n", driverName, portName );
@@ -906,12 +918,15 @@ void pgpEdt::acqTask()
 //      getIntegerParam( NDArrayCallbacks, &arrayCallbacks );
 //      if ( ! arrayCallbacks ) continue;
 
-        getIntegerParam( nbit,   &nBit   );
-        getIntegerParam( pack,   &pack16 );
-        getIntegerParam( vOut,   &vout   );
-        getIntegerParam( numRow, &nRow   );
-        getIntegerParam( numCol, &nCol   );
+        getIntegerParam( nbit,    &nBit   );
+        getIntegerParam( pack,    &pack16 );
+        getIntegerParam( vOut,    &vout   );
+        getIntegerParam( skipRow, &sRow   );
+        getIntegerParam( skipCol, &sCol   );
+        getIntegerParam( numRow,  &nRow   );
+        getIntegerParam( numCol,  &nCol   );
 
+        tCol = sCol + nCol;
         rdat = (epicsUInt32 *)rbuf;
 
         lock();
@@ -929,6 +944,8 @@ void pgpEdt::acqTask()
                        driverName, portName );
 
             pNDArray = NULL;
+
+            unlock();
             continue;
         }
 
@@ -949,7 +966,6 @@ void pgpEdt::acqTask()
         pNDArray->dims[1].offset       = 0;
         pNDArray->dims[1].binning      = 1;
 
-        ir   = 4;
         icol = 0;
         irow = 0;
         idat = (epicsUInt16 *)pNDArray->pData;
@@ -958,14 +974,16 @@ void pgpEdt::acqTask()
         else if ( (nBit >  12) && (pack16 == pgpEdtPack_16) ) {}
         else if ( (nBit == 12) && (pack16 == pgpEdtPack_16) )
         {
+            ir = 4 + sRow * tCol / 2;
+
             while ( irow < nRow )
             {
-                icr = nCol * irow + icol;
+                icr = irow * nCol + icol - sCol ;
 
-                *(idat+icr  ) =  *(rdat+ir)        & 0xFFF;
-                *(idat+icr+1) = (*(rdat+ir) >> 16) & 0xFFF;
+                if ( icol   >= sCol ) *(idat+icr  ) =  *(rdat+ir)       & 0xFFF;
+                if ( icol+1 >= sCol ) *(idat+icr+1) = (*(rdat+ir) >>16) & 0xFFF;
 
-                if ( icol < nCol-3 ) icol += 2;
+                if ( icol < tCol-2 ) icol += 2;
                 else
                 {
                     irow += 1;
@@ -978,23 +996,33 @@ void pgpEdt::acqTask()
         else if ( (nBit == 12) && (pack16 == pgpEdtPack_24) &&
                                   (vout   == pgpEdtVOut_TD)    )
         {
+            ir = 4 + sRow * tCol * 3 / 8;
+
             while ( irow < nRow )
             {
-                icr = nCol * irow + icol;
+                icr = irow * nCol + icol - sCol ;
 
+                if ( icol   >= sCol )
                 *(idat+icr  ) =   *(rdat+ir)       & 0xFFF;
+                if ( icol+1 >= sCol )
                 *(idat+icr+1) = ((*(rdat+ir) >> 4) & 0xF00) + ((*(rdat+ir) >> 16) & 0xFF);
 
+                if ( icol+2 >= sCol )
                 *(idat+icr+2) = ((*(rdat+ir+1) & 0xF) << 8) +  (*(rdat+ir) >> 24);
+                if ( icol+3 >= sCol )
                 *(idat+icr+3) = ((*(rdat+ir+1) <<  4) & 0xF00) + ((*(rdat+ir+1) >>  8) & 0xFF);
 
+                if ( icol+4 >= sCol )
                 *(idat+icr+4) =  (*(rdat+ir+1) >> 16) & 0xFFF;
+                if ( icol+5 >= sCol )
                 *(idat+icr+5) =  (*(rdat+ir+2) & 0xFF)         + ((*(rdat+ir+1) >> 28) << 8);
 
+                if ( icol+6 >= sCol )
                 *(idat+icr+6) =  (*(rdat+ir+2) >>  8) & 0xFFF;
+                if ( icol+7 >= sCol )
                 *(idat+icr+7) = ((*(rdat+ir+2) >> 24) & 0xFF) + ((*(rdat+ir+2) >> 12) & 0xF00);
 
-                if ( icol < nCol-8 ) icol += 8;
+                if ( icol < tCol-8 ) icol += 8;
                 else
                 {
                     irow += 1;
@@ -1007,24 +1035,34 @@ void pgpEdt::acqTask()
         else if ( (nBit == 12) && (pack16 == pgpEdtPack_24 ) &&
                                   (vout   == pgpEdtVOut_TnB)    )
         {
+            ir = 4 + sRow * tCol * 3 / 4;
+
             while ( irow < nRow/2 )                     // while ( ir < 393220 )
             {
-                icr = nCol * irow          + icol;
-                jcr = nCol * (nRow-1-irow) + icol;
+                icr = irow          * nCol + icol - sCol;
+                jcr = (nRow-1-irow) * nCol + icol - sCol;
 
+                if ( icol   >= sCol ) {
                 *(idat+icr  ) =   *(rdat+ir)       & 0xFFF;
                 *(idat+jcr  ) = ((*(rdat+ir) >> 4) & 0xF00) + ((*(rdat+ir) >> 16) & 0xFF);
+                }
 
+                if ( icol+1 >= sCol ) {
                 *(idat+icr+1) = ((*(rdat+ir+1) & 0xF) << 8) +  (*(rdat+ir) >> 24);
                 *(idat+jcr+1) = ((*(rdat+ir+1) <<  4) & 0xF00) + ((*(rdat+ir+1) >>  8) & 0xFF);
+                }
 
+                if ( icol+2 >= sCol ) {
                 *(idat+icr+2) =  (*(rdat+ir+1) >> 16) & 0xFFF;
                 *(idat+jcr+2) =  (*(rdat+ir+2) & 0xFF) +         ((*(rdat+ir+1) >> 28) << 8);
+                }
 
+                if ( icol+3 >= sCol ) {
                 *(idat+icr+3) =  (*(rdat+ir+2) >>  8) & 0xFFF;
                 *(idat+jcr+3) = ((*(rdat+ir+2) >> 24) & 0xFF) + ((*(rdat+ir+2) >> 12) & 0xF00);
+                }
 
-                if ( icol < nCol-4 ) icol += 4;
+                if ( icol < tCol-4 ) icol += 4;
                 else
                 {
                     irow += 1;
@@ -1116,6 +1154,8 @@ pgpEdt::pgpEdt( const char *portName, int board, int chan,
     createParam( nbitString,       asynParamInt32,  &nbit      );
     createParam( packString,       asynParamInt32,  &pack      );
     createParam( vOutString,       asynParamInt32,  &vOut      );
+    createParam( skipRowString,    asynParamInt32,  &skipRow   );
+    createParam( skipColString,    asynParamInt32,  &skipCol   );
     createParam( fullNRowString,   asynParamInt32,  &fullNRow  );
     createParam( fullNColString,   asynParamInt32,  &fullNCol  );
     createParam( numRowString,     asynParamInt32,  &numRow    );
@@ -1150,14 +1190,7 @@ pgpEdt::pgpEdt( const char *portName, int board, int chan,
     status |= setIntegerParam( NDDataType,     dataType );
     status |= setIntegerParam( ADMaxSizeX,     maxSizeX );
     status |= setIntegerParam( ADMaxSizeY,     maxSizeY );
-/*
-    status |= setIntegerParam(NDArraySizeX, maxSizeX);
-    status |= setIntegerParam(NDArraySizeY, maxSizeY);
-    status |= setIntegerParam(ADImageMode, ADImageContinuous);
-    status |= setDoubleParam (ADAcquireTime, .001);
-    status |= setDoubleParam (ADAcquirePeriod, .005);
-    status |= setIntegerParam(ADNumImages, 100);
-*/
+
     if ( status )
     {
         printf( "%s:%s, pgpEdt: unable to set parameters, quit !!!\n",

@@ -74,6 +74,26 @@ record(mbbo, "$(P)$(R)VOut")
     info( autosaveFields, "VAL" )
 }
 
+record(longout, "$(P)$(R)SkipRow")
+{
+    field(DESC, "Skip Rows")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))skipRow")
+    field(VAL,  "0")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
+record(longout, "$(P)$(R)SkipCol")
+{
+    field(DESC, "Skip Columns")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))skipCol")
+    field(VAL,  "0")
+    field(PINI, "YES")
+    info( autosaveFields, "VAL" )
+}
+
 record(longout, "$(P)$(R)FullNRow")
 {
     field(DESC, "Full Frame Number of Rows")

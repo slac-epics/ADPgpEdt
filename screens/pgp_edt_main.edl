@@ -148,7 +148,7 @@ menuLabel {
   0 "Expert Control"
 }
 symbols {
-  0 "CAMERA=$(CAMERA),IOC=$(IOC)"
+  0 "CAMERA=$(CAMERA),MODEL=$(MODEL),IOC=$(IOC)"
 }
 endObjectProperties
 

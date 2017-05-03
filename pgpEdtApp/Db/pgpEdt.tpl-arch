@@ -3,6 +3,8 @@ $(P)$(R)Baud            10    monitor
 $(P)$(R)SSUS            10    monitor
 $(P)$(R)Pack            10    monitor
 $(P)$(R)VOut            10    monitor
+$(P)$(R)SkipRow         10    monitor
+$(P)$(R)SkipCol         10    monitor
 $(P)$(R)FullNRow        10    monitor
 $(P)$(R)FullNCol        10    monitor
 $(P)$(R)CC              10    monitor

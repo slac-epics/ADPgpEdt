@@ -3,6 +3,8 @@ $(P)$(R)Baud
 $(P)$(R)SSUS
 $(P)$(R)Pack
 $(P)$(R)VOut
+$(P)$(R)SkipRow
+$(P)$(R)SkipCol
 $(P)$(R)FullNRow
 $(P)$(R)FullNCol
 $(P)$(R)CC
