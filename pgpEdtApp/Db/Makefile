@@ -11,8 +11,9 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install)
 # databases, templates, substitutions like this
 
-# Drivers
+# db templates
 DB_INSTALLS += pgpEdt.template
+DB_INSTALLS += OPAL1000.template
 
 # Install archive files
 ARCHIVE += pgpEdt.tpl-arch
