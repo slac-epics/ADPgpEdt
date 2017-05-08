@@ -1,0 +1,207 @@
+# EPICS database for
+# Adimec OPAL 1000m CamLink Camera in 12 bit mode
+#
+# Protocol root must match db filename root, i.e. OPAL1000.proto
+
+record( stringin, "$(P)$(R)Model" )
+{
+    field( VAL,  "OPAL1000m_12" )
+    field( PINI, "YES" )
+}
+
+record( stringin, "$(P)$(R)MID_RBV" )
+{
+    field( DESC, "Model ID" )
+    field( DTYP, "stream" )
+    field( INP,	 "@opal1000m_12.proto GetQStr(MID) $(PORT).SER" )
+    field( PINI, "YES" )
+}
+
+# Read camera identification string
+# Format is a-bc/x[f] S/N:e
+# Where:
+#	a is the family name
+#	b is the detector type
+#	c is c for color, b for B/W
+#	x is D or Q for Dual or Quad sensor output
+#	[f] is optional for special customer version info
+#	e is the serial number
+record( stringin, "$(P)$(R)ID_RBV" )
+{
+    field( DESC, "ID String" )
+    field( DTYP, "stream" )
+    field( INP,	 "@opal1000m_12.proto GetQStr(ID) $(PORT).SER" )
+    field( PINI, "YES" )
+}
+
+record( stringin, "$(P)$(R)UFDT_RBV" )
+{
+    field( DESC, "Firmware Release Time Stamp" )
+    field( DTYP, "stream" )
+    field( INP,	 "@opal1000m_12.proto GetQStr(UFDT) $(PORT).SER" )
+    field( PINI, "YES" )
+}
+
+# Temperature C
+record( longin, "$(P)$(R)TempC_RBV" )
+{
+    field( DESC, "Temperature of the Sensor" )
+    field( DTYP, "stream" )
+    field( INP,	 "@opal1000m_12.proto GetTempC $(PORT).SER" )
+    field( EGU,  "C" )
+    field( HIHI, "60" )		field( HHSV, "MAJOR" )
+    field( HIGH, "50" )		field( HSV,  "MINOR" )
+    field( SCAN, "10 second" )
+    field( FLNK, "$(P)$(R)TempF_RBV" )
+}
+
+record( calc, "$(P)$(R)TempF_RBV" )
+{
+    field( INPA, "$(P)$(R)TempC_RBV NPP MS" )
+    field( CALC, "(9*A/5.)+32" )
+}
+
+# Set black level
+record( longout, "$(P)$(R)BL_SET" )
+{
+    field( DESC, "Set The Black Level" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@opal1000m_12.proto SetInt(BL) $(PORT).SER" )
+    field( HOPR, 4096 )
+    field( DRVH, 4096 )
+    field( LOPR, 0    )
+    field( DRVL, 0    )
+    field( FLNK, "$(P)$(R)BL_RBV" )
+	info( autosaveFields, "VAL" )
+	info( archiveFields,  "VAL" )
+}
+
+# Read black level
+record( longin, "$(P)$(R)BL_RBV" )
+{
+    field( DESC, "Black Level" )
+    field( DTYP, "stream" )
+    field( INP,	 "@opal1000m_12.proto GetInt(BL) $(PORT).SER" )
+    field( PINI, "YES" )
+	info( archiveFields,  "VAL" )
+}
+
+# Opal gain is in integer units of 0.01 amplification
+# 100  is the minimum gain, i.e. no  signal amplification
+# 3200 is the maximum gain, i.e. 32x signal amplification
+record( longout, "$(P)$(R)GA_SET" )
+{
+    field( DESC, "Set The Digital Gain" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@opal1000m_12.proto SetInt(GA) $(PORT).SER" )
+    field( HOPR, 3200 )
+    field( DRVH, 3200 )
+    field( LOPR, 100  )
+    field( DRVL, 100  )
+    field( FLNK, "$(P)$(R)GA_RBV" )
+	info( autosaveFields, "VAL" )
+	info( archiveFields,  "VAL" )
+}
+
+# 100 is the minimum gain, i.e. no signal amplification
+record( longin, "$(P)$(R)GA_RBV" )
+{
+    field( DESC, "Digital Gain" )
+    field( DTYP, "stream" )
+    field( INP,	 "@opal1000m_12.proto GetInt(GA) $(PORT).SER" )
+    field( PINI, "YES" )
+	info( archiveFields,  "VAL" )
+}
+
+# Set the acquire period, the rep rate for image capture
+# Only works in FreeRun trigger mode
+# Argument is an integer in units of 10us
+record( longout, "$(P)$(R)FP_SET" )
+{
+    field( DESC, "Set The Frame Period" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@opal1000m_12.proto SetInt(FP) $(PORT).SER" )
+    field( HOPR, 32000    )
+    field( DRVH, 32000    )
+    field( LOPR, 813      )
+    field( DRVL, 813      )
+    field( EGU,  "e-5sec" )
+    field( FLNK, "$(P)$(R)FP_RBV" )
+	info( autosaveFields, "VAL" )
+}
+
+# Read AcquirePeriod, the rep rate for image capture
+# Only relevant in FreeRun trigger mode
+# Reply value is an integer in units of 10us
+record( longin, "$(P)$(R)FP_RBV" )
+{
+    field( DESC, "Frame Period" )
+    field( DTYP, "stream" )
+    field( INP,	 "@opal1000m_12.proto GetInt(FP) $(PORT).SER" )
+    field( EGU,  "e-5sec" )
+    field( PINI, "YES" )
+}
+
+# Set AqcuireTime, the length of the exposure
+# Only works in FreeRun and External trigger modes
+# Argument is an integer in units of 10us
+record( longout, "$(P)$(R)IT_SET" )
+{
+#       field( TPRO, 2 )
+    field( DESC, "Set Integration Time" )
+    field( DTYP, "stream" )
+    field( OUT,  "@opal1000m_12.proto SetInt(IT) $(PORT).SER" )
+    field( HOPR, 32000    )
+    field( DRVH, 32000    )
+    field( LOPR, 1        )
+    field( DRVL, 1        )
+    field( EGU,  "e-5sec" )
+    field( FLNK, "$(P)$(R)IT_RBV" )
+	info( autosaveFields, "VAL" )
+}
+
+# Read AqcuireTime, the length of the exposure
+# Only relevant in FreeRun trigger mode
+# Reply value is an integer in units of 10us
+record( longin, "$(P)$(R)IT_RBV" )
+{
+    field( DESC, "Integration Time" )
+    field( DTYP, "stream" )
+    field( INP,  "@opal1000m_12.proto GetInt(IT) $(PORT).SER" )
+    field( EGU,  "e-5sec" )
+    field( PINI, "YES" )
+}
+
+# Returns x;y, where total time is y+(x*65536) hours
+record( stringin, "$(P)$(R)ET_RBV" )
+{
+    field( DESC, "Elapsed Time" )
+    field( DTYP, "stream" )
+    field( INP,	 "@opal1000m_12.proto GetStr(ET) $(PORT).SER" )
+    field( PINI, "YES" )
+}
+
+record( mbbi, "$(P)$(R)ERR_RBV" )
+{
+    field( DESC, "Latest Error Number" )
+    field( DTYP, "stream" )
+    field( INP,	 "@opal1000m_12.proto GetInt(ERR) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "No Error"               )
+    field( ONVL, 1   ) field( ONST, "Unknown Command"        )
+    field( TWVL, 2   ) field( TWST, "Missing Param"          )
+    field( THVL, 3   ) field( THST, "Syntax Error"           )
+    field( FRVL, 4   ) field( FRST, "Too many param"         )
+    field( FVVL, 5   ) field( FVST, "Missing param"          )
+    field( SXVL, 100 ) field( SXST, "NVRAM Load Error"       )
+    field( SVVL, 7   ) field( SVST, "Param out of range"     )
+    field( EIVL, 8   ) field( EIST, "Internal Error"         )
+    field( NIVL, 101 ) field( NIST, "NVRAM Save Error"       )
+    field( TEVL, 102 ) field( TEST, "Def. Pixel List Full"   )
+    field( ELVL, 103 ) field( ELST, "Def. Pixel List Dup"    )
+    field( TVVL, 120 ) field( TVST, "OLUT Open Error"        )
+    field( TTVL, 121 ) field( TTST, "OLUT Not Open"          )
+    field( FTVL, 122 ) field( FTST, "Not enough LUT entries" )
+    field( FFVL, 123 ) field( FFST, "Too many LUT entries"   )
+    field( PINI, "YES" )
+}
+
