@@ -142,7 +142,7 @@ buttonLabel "Expert Control"
 numPvs 4
 numDsps 1
 displayFileName {
-  0 "pgp_edt_expert.edl"
+  0 "pgpEdt_expert.edl"
 }
 menuLabel {
   0 "Expert Control"
@@ -182,11 +182,11 @@ y 48
 w 512
 h 512
 dataPvStr "$(CAMERA):$(IMAGE):ArrayData"
-widthPvStr "$(CAMERA):$(IMAGE):ArraySize0_RBV"
-heightPvStr "$(CAMERA):$(IMAGE):ArraySize1_RBV"
+widthPvStr "$(CAMERA):MaxSizeX_RBV"
+heightPvStr "$(CAMERA):MaxSizeY_RBV"
 dataWidth 512
 pvBasedDataSize 1
-nBitsPerPixel 14
+nBitsPerPixel 12
 endObjectProperties
 
 # (Rectangle)
