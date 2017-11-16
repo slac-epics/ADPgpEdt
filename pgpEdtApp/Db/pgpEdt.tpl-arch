@@ -5,8 +5,8 @@ $(P)$(R)Pack            10    monitor
 $(P)$(R)VOut            10    monitor
 $(P)$(R)SkipRow         10    monitor
 $(P)$(R)SkipCol         10    monitor
-$(P)$(R)FullNRow        10    monitor
-$(P)$(R)FullNCol        10    monitor
+$(P)$(R)FullRow         10    monitor
+$(P)$(R)FullCol         10    monitor
 $(P)$(R)CC              10    monitor
 $(P)$(R)TrgPolarity     10    monitor
 $(P)$(R)EvrPrescale     10    monitor
@@ -20,4 +20,17 @@ $(P)$(R)CmdEVR          10    monitor
 $(P)$(R)CmdFree         10    monitor
 $(P)$(R)CmdTPtn         10    monitor
 $(P)$(R)ExposureMode    10    monitor
+
+$(P)$(R)MinX            10    monitor
+$(P)$(R)MinY            10    monitor
+$(P)$(R)SizeX           10    monitor
+$(P)$(R)SizeY           10    monitor
+$(P)$(R)ReverseX        10    monitor
+$(P)$(R)ReverseY        10    monitor
+$(P)$(R)TriggerMode     10    monitor
+
+$(P)$(R)BL_SET          10    monitor
+$(P)$(R)GA_SET          10    monitor
+$(P)$(R)FP_SET          10    monitor
+$(P)$(R)IT_SET          10    monitor
 

@@ -13,7 +13,7 @@ record( stringin, "$(P)$(R)MID_RBV" )
 {
     field( DESC, "Model ID" )
     field( DTYP, "stream" )
-    field( INP,	 "@opal1000m_12.proto GetQStr(MID) $(PORT).SER" )
+    field( INP,	 "@OPAL1000.proto GetQStr(MID) $(PORT).SER" )
     field( PINI, "YES" )
 }
 
@@ -30,7 +30,7 @@ record( stringin, "$(P)$(R)ID_RBV" )
 {
     field( DESC, "ID String" )
     field( DTYP, "stream" )
-    field( INP,	 "@opal1000m_12.proto GetQStr(ID) $(PORT).SER" )
+    field( INP,	 "@OPAL1000.proto GetQStr(ID) $(PORT).SER" )
     field( PINI, "YES" )
 }
 
@@ -38,7 +38,7 @@ record( stringin, "$(P)$(R)UFDT_RBV" )
 {
     field( DESC, "Firmware Release Time Stamp" )
     field( DTYP, "stream" )
-    field( INP,	 "@opal1000m_12.proto GetQStr(UFDT) $(PORT).SER" )
+    field( INP,	 "@OPAL1000.proto GetQStr(UFDT) $(PORT).SER" )
     field( PINI, "YES" )
 }
 
@@ -47,7 +47,7 @@ record( longin, "$(P)$(R)TempC_RBV" )
 {
     field( DESC, "Temperature of the Sensor" )
     field( DTYP, "stream" )
-    field( INP,	 "@opal1000m_12.proto GetTempC $(PORT).SER" )
+    field( INP,	 "@OPAL1000.proto GetTempC $(PORT).SER" )
     field( EGU,  "C" )
     field( HIHI, "60" )		field( HHSV, "MAJOR" )
     field( HIGH, "50" )		field( HSV,  "MINOR" )
@@ -66,7 +66,7 @@ record( longout, "$(P)$(R)BL_SET" )
 {
     field( DESC, "Set The Black Level" )
     field( DTYP, "stream" )
-    field( OUT,	 "@opal1000m_12.proto SetInt(BL) $(PORT).SER" )
+    field( OUT,	 "@OPAL1000.proto SetInt(BL) $(PORT).SER" )
     field( HOPR, 4096 )
     field( DRVH, 4096 )
     field( LOPR, 0    )
@@ -81,7 +81,7 @@ record( longin, "$(P)$(R)BL_RBV" )
 {
     field( DESC, "Black Level" )
     field( DTYP, "stream" )
-    field( INP,	 "@opal1000m_12.proto GetInt(BL) $(PORT).SER" )
+    field( INP,	 "@OPAL1000.proto GetInt(BL) $(PORT).SER" )
     field( PINI, "YES" )
 	info( archiveFields,  "VAL" )
 }
@@ -93,7 +93,7 @@ record( longout, "$(P)$(R)GA_SET" )
 {
     field( DESC, "Set The Digital Gain" )
     field( DTYP, "stream" )
-    field( OUT,	 "@opal1000m_12.proto SetInt(GA) $(PORT).SER" )
+    field( OUT,	 "@OPAL1000.proto SetInt(GA) $(PORT).SER" )
     field( HOPR, 3200 )
     field( DRVH, 3200 )
     field( LOPR, 100  )
@@ -108,7 +108,7 @@ record( longin, "$(P)$(R)GA_RBV" )
 {
     field( DESC, "Digital Gain" )
     field( DTYP, "stream" )
-    field( INP,	 "@opal1000m_12.proto GetInt(GA) $(PORT).SER" )
+    field( INP,	 "@OPAL1000.proto GetInt(GA) $(PORT).SER" )
     field( PINI, "YES" )
 	info( archiveFields,  "VAL" )
 }
@@ -120,7 +120,7 @@ record( longout, "$(P)$(R)FP_SET" )
 {
     field( DESC, "Set The Frame Period" )
     field( DTYP, "stream" )
-    field( OUT,	 "@opal1000m_12.proto SetInt(FP) $(PORT).SER" )
+    field( OUT,	 "@OPAL1000.proto SetInt(FP) $(PORT).SER" )
     field( HOPR, 32000    )
     field( DRVH, 32000    )
     field( LOPR, 813      )
@@ -137,7 +137,7 @@ record( longin, "$(P)$(R)FP_RBV" )
 {
     field( DESC, "Frame Period" )
     field( DTYP, "stream" )
-    field( INP,	 "@opal1000m_12.proto GetInt(FP) $(PORT).SER" )
+    field( INP,	 "@OPAL1000.proto GetInt(FP) $(PORT).SER" )
     field( EGU,  "e-5sec" )
     field( PINI, "YES" )
 }
@@ -150,7 +150,7 @@ record( longout, "$(P)$(R)IT_SET" )
 #       field( TPRO, 2 )
     field( DESC, "Set Integration Time" )
     field( DTYP, "stream" )
-    field( OUT,  "@opal1000m_12.proto SetInt(IT) $(PORT).SER" )
+    field( OUT,  "@OPAL1000.proto SetInt(IT) $(PORT).SER" )
     field( HOPR, 32000    )
     field( DRVH, 32000    )
     field( LOPR, 1        )
@@ -167,7 +167,7 @@ record( longin, "$(P)$(R)IT_RBV" )
 {
     field( DESC, "Integration Time" )
     field( DTYP, "stream" )
-    field( INP,  "@opal1000m_12.proto GetInt(IT) $(PORT).SER" )
+    field( INP,  "@OPAL1000.proto GetInt(IT) $(PORT).SER" )
     field( EGU,  "e-5sec" )
     field( PINI, "YES" )
 }
@@ -177,7 +177,7 @@ record( stringin, "$(P)$(R)ET_RBV" )
 {
     field( DESC, "Elapsed Time" )
     field( DTYP, "stream" )
-    field( INP,	 "@opal1000m_12.proto GetStr(ET) $(PORT).SER" )
+    field( INP,	 "@OPAL1000.proto GetStr(ET) $(PORT).SER" )
     field( PINI, "YES" )
 }
 
@@ -185,7 +185,7 @@ record( mbbi, "$(P)$(R)ERR_RBV" )
 {
     field( DESC, "Latest Error Number" )
     field( DTYP, "stream" )
-    field( INP,	 "@opal1000m_12.proto GetInt(ERR) $(PORT).SER" )
+    field( INP,	 "@OPAL1000.proto GetInt(ERR) $(PORT).SER" )
     field( ZRVL, 0   ) field( ZRST, "No Error"               )
     field( ONVL, 1   ) field( ONST, "Unknown Command"        )
     field( TWVL, 2   ) field( TWST, "Missing Param"          )

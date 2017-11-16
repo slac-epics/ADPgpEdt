@@ -9,6 +9,7 @@
  */
 
 #include <algorithm>
+#include <unistd.h>
 #include <iostream>
 #include <iomanip>
 
@@ -114,10 +115,8 @@ protected:
     int  vOut;           // video output order: 0 -> Top Down; 1 -> Top & Bottom
     int  skipRow;                                                   // skip rows
     int  skipCol;                                                // skip columns
-    int  fullNRow;                                  // full frame number of rows
-    int  fullNCol;                               // full frame number of columns
-    int  numRow;                                               // number of rows
-    int  numCol;                                            // number of columns
+    int  fullRow;                                   // full frame number of rows
+    int  fullCol;                                // full frame number of columns
     int  numTrains;                                      // number of MGT trains
     int  numCycles;                                      // number of MGT cycles
     int  cc;                            // cameralink trigger line (1 through 4)
@@ -173,10 +172,8 @@ private:
 #define vOutString       "vOut"
 #define skipRowString    "skipRow"
 #define skipColString    "skipCol"
-#define fullNRowString   "fullNRow"
-#define fullNColString   "fullNCol"
-#define numRowString     "numRow"
-#define numColString     "numCol"
+#define fullRowString    "fullRow"
+#define fullColString    "fullCol"
 #define numTrainsString  "numTrains"
 #define numCyclesString  "numCycles"
 #define ccString         "cc"
@@ -402,36 +399,34 @@ long pgpEdt::set_csr( asynUser *pasynUser, int acq, int pass )
 
 long pgpEdt::update_nrow_ncol( asynUser *pasynUser, int pass )
 {
-    int    expoVal, nrowVal, ncolVal, srowVal, scolVal;
+    int    expoVal, mrowVal, mcolVal, nrowVal, ncolVal;
 
     char   cmdFullStr[80], cmdROIStr[80], croi[80], cmds[80], respStr[80];
 
     char  *fmt, *aptr, *argp[8], *fidx1, *fidx2;
     short  argc, aval, clen;
 
-    long   status = 0;
-
     getIntegerParam( exposure, &expoVal );
 
     if ( expoVal == pgpEdtExpo_Full )                              // full frame
     {
-        getIntegerParam( fullNRow,     &nrowVal   );
-        getIntegerParam( fullNCol,     &ncolVal   );
+        getIntegerParam( fullRow,     &nrowVal   );
+        getIntegerParam( fullCol,     &ncolVal   );
 
-        getStringParam ( cmdFull,  80, cmdFullStr );
+        getStringParam ( cmdFull, 80, cmdFullStr );
 
         ser_send_recv( pasynUser, cmdFullStr, respStr, pass );
     }
     else                                                // HW region of interest
     {
-        getIntegerParam( ADMinY,       &srowVal   );
-        getIntegerParam( ADMinX,       &scolVal   );
-        getIntegerParam( ADSizeY,      &nrowVal   );
-        getIntegerParam( ADSizeX,      &ncolVal   );
+        getIntegerParam( ADMinY,      &mrowVal   );
+        getIntegerParam( ADMinX,      &mcolVal   );
+        getIntegerParam( ADSizeY,     &nrowVal   );
+        getIntegerParam( ADSizeX,     &ncolVal   );
 
-        getStringParam ( cmdROI,   80, cmdROIStr  );
+        getStringParam ( cmdROI,  80, cmdROIStr  );
 
-        if ( index(cmdROIStr, '%') == 0 )
+        if ( index(cmdROIStr, '%') == 0 )                       // no formatting
             ser_send_recv( pasynUser, cmdROIStr,  respStr, pass );
         else
         {
@@ -445,10 +440,10 @@ long pgpEdt::update_nrow_ncol( asynUser *pasynUser, int pass )
             clen = 0;
             while ( 1 )
             {
-                if      ( strcmp(argp[argc], "miny") == 0 ) aval = srowVal;
-                else if ( strcmp(argp[argc], "minx") == 0 ) aval = scolVal;
-                else if ( strcmp(argp[argc], "numy") == 0 ) aval = nrowVal;
-                else if ( strcmp(argp[argc], "numx") == 0 ) aval = ncolVal;
+                if      ( strcmp(argp[argc], "MinY" ) == 0 ) aval = mrowVal;
+                else if ( strcmp(argp[argc], "MinX" ) == 0 ) aval = mcolVal;
+                else if ( strcmp(argp[argc], "SizeY") == 0 ) aval = nrowVal;
+                else if ( strcmp(argp[argc], "SizeX") == 0 ) aval = ncolVal;
 
                 fidx1 = index( fmt,     '%' );
                 fidx2 = index( fidx1+1, '%' );
@@ -469,13 +464,13 @@ long pgpEdt::update_nrow_ncol( asynUser *pasynUser, int pass )
                 argc++;
             }
 
-            printf( "HW ROI Cmds: %s\n", cmds );
+//          printf( "HW ROI Cmds: %s\n", cmds );
             ser_send_recv( pasynUser, cmds,       respStr, pass );
         }
     }
 
-    setIntegerParam( numRow, nrowVal );
-    setIntegerParam( numCol, ncolVal );
+    setIntegerParam( NDArraySizeY, nrowVal );
+    setIntegerParam( NDArraySizeX, ncolVal );
 
     return( 0 );
 }
@@ -485,16 +480,15 @@ long pgpEdt::update_ntrn_ncyc( asynUser *pasynUser, int pass )
     epicsUInt32  rAddr;
     int          nbitVal, packVal, voutVal;
     int          skiprVal, skipcVal, nrowVal, ncolVal, ntrnVal, ncycVal;
-    long         status = 0;
 
-    getIntegerParam( nbit,    &nbitVal  );
-    getIntegerParam( pack,    &packVal  );
-    getIntegerParam( vOut,    &voutVal  );
+    getIntegerParam( nbit,         &nbitVal  );
+    getIntegerParam( pack,         &packVal  );
+    getIntegerParam( vOut,         &voutVal  );
 
-    getIntegerParam( skipRow, &skiprVal );
-    getIntegerParam( skipCol, &skipcVal );
-    getIntegerParam( numRow,  &nrowVal  );
-    getIntegerParam( numCol,  &ncolVal  );
+    getIntegerParam( skipRow,      &skiprVal );
+    getIntegerParam( skipCol,      &skipcVal );
+    getIntegerParam( NDArraySizeY, &nrowVal  );
+    getIntegerParam( NDArraySizeX, &ncolVal  );
 
     nrowVal += skiprVal;
     ncolVal += skipcVal;
@@ -679,12 +673,12 @@ asynStatus pgpEdt::writeInt32( asynUser *pasynUser, epicsInt32 value )
 
         update_ntrn_ncyc( pasynUser );
     }
-    else if ( (param == pack    ) || (param == vOut    ) ||
-              (param == skipRow ) || (param == skipCol )    )
+    else if ( (param == pack   ) || (param == vOut   ) ||
+              (param == skipRow) || (param == skipCol)    )
     {
         update_ntrn_ncyc( pasynUser );
     }
-    else if ( (param == fullNRow) || (param == fullNCol) )         // full frame
+    else if ( (param == fullRow) || (param == fullCol) )           // full frame
     {
         getIntegerParam( exposure, &expoVal );
 
@@ -694,8 +688,8 @@ asynStatus pgpEdt::writeInt32( asynUser *pasynUser, epicsInt32 value )
             update_ntrn_ncyc( pasynUser );
         }
     }
-    else if ( (param == ADMinX  ) || (param == ADMinY  ) ||
-              (param == ADSizeX ) || (param == ADSizeY )    )          // HW ROI
+    else if ( (param == ADMinX ) || (param == ADMinY ) ||
+              (param == ADSizeX) || (param == ADSizeY)    )            // HW ROI
     {
         getIntegerParam( exposure, &expoVal );
 
@@ -828,15 +822,15 @@ asynStatus pgpEdt::writeOctet( asynUser *pasynUser, const char *value,
   * \param[in] details If >0 then driver details are printed */
 void pgpEdt::report( FILE *fp, int details )
 {
-    fprintf( fp, "SLAC CameraLink Frame Grabber %s\n", portName );
+    fprintf( fp, "SLAC PgpEdt Frame Grabber %s\n", portName );
     if ( details > 0 )
     {
         int nx, ny, dataType;
-        getIntegerParam(numCol,     &nx);
-        getIntegerParam(numRow,     &ny);
-        getIntegerParam(NDDataType, &dataType);
-        fprintf(fp, "  NX, NY:            %d  %d\n", nx, ny);
-        fprintf(fp, "  Data type:         %d\n", dataType);
+        getIntegerParam(NDArraySizeX, &nx      );
+        getIntegerParam(NDArraySizeY, &ny      );
+        getIntegerParam(NDDataType,   &dataType);
+        fprintf(fp, "  NX, NY:            %d  %d\n", nx, ny  );
+        fprintf(fp, "  Data type:         %d\n",     dataType);
     }
 
     ADDriver::report( fp, details );          /* Invoke the base class method */
@@ -867,7 +861,7 @@ void pgpEdt::acqTask()
 
     NDArray        *pNDArray = NULL;
 
-    int             ret, arrayCallbacks, status = asynSuccess;
+    int             ret;
 
     pfd[0].fd     = pdev;
     pfd[0].events = POLLIN;
@@ -918,13 +912,13 @@ void pgpEdt::acqTask()
 //      getIntegerParam( NDArrayCallbacks, &arrayCallbacks );
 //      if ( ! arrayCallbacks ) continue;
 
-        getIntegerParam( nbit,    &nBit   );
-        getIntegerParam( pack,    &pack16 );
-        getIntegerParam( vOut,    &vout   );
-        getIntegerParam( skipRow, &sRow   );
-        getIntegerParam( skipCol, &sCol   );
-        getIntegerParam( numRow,  &nRow   );
-        getIntegerParam( numCol,  &nCol   );
+        getIntegerParam( nbit,         &nBit   );
+        getIntegerParam( pack,         &pack16 );
+        getIntegerParam( vOut,         &vout   );
+        getIntegerParam( skipRow,      &sRow   );
+        getIntegerParam( skipCol,      &sCol   );
+        getIntegerParam( NDArraySizeY, &nRow   );
+        getIntegerParam( NDArraySizeX, &nCol   );
 
         tCol = sCol + nCol;
         rdat = (epicsUInt32 *)rbuf;
@@ -1090,12 +1084,13 @@ void pgpEdt::acqTask()
 
         doCallbacksGenericPointer( pNDArray, NDArrayData, 0 );
 
-        setIntegerParam( NDArraySize, nRow * nCol * sizeof(epicsInt16) );
+        setIntegerParam( NDArraySize,    nRow * nCol * sizeof(epicsInt16) );
+        setIntegerParam( NDArrayCounter, *(rdat + 1)                      );
 
-        setIntegerParam( trg2frame,    (*rdat)        & 0x7FFFF        );
-        setIntegerParam( frameRate,   ((*rdat) >> 19) &   0x3FF        );
+        setIntegerParam( trg2frame,       (*rdat)        & 0x7FFFF        );
+        setIntegerParam( frameRate,      ((*rdat) >> 19) &   0x3FF        );
 
-        setIntegerParam( csta,        0x78000000                       );
+        setIntegerParam( csta,           0x78000000                       );
 
 //      channel          = ((*rdat) >> 29) &       7;
 
@@ -1136,7 +1131,7 @@ pgpEdt::pgpEdt( const char *portName, int board, int chan,
                 int maxBuffers, size_t maxMemory, int priority, int stackSize )
     : ADDriver(portName, 1, NUM_CLCAM_PARAMS, maxBuffers, maxMemory,
                0, 0,        /* No interfaces beyond those set in ADDriver.cpp */
-               0, 1,    /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
+               ASYN_CANBLOCK, 1,    /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
                priority, stackSize),
       pRaw(NULL), channel(chan)
 
@@ -1156,10 +1151,8 @@ pgpEdt::pgpEdt( const char *portName, int board, int chan,
     createParam( vOutString,       asynParamInt32,  &vOut      );
     createParam( skipRowString,    asynParamInt32,  &skipRow   );
     createParam( skipColString,    asynParamInt32,  &skipCol   );
-    createParam( fullNRowString,   asynParamInt32,  &fullNRow  );
-    createParam( fullNColString,   asynParamInt32,  &fullNCol  );
-    createParam( numRowString,     asynParamInt32,  &numRow    );
-    createParam( numColString,     asynParamInt32,  &numCol    );
+    createParam( fullRowString,    asynParamInt32,  &fullRow   );
+    createParam( fullColString,    asynParamInt32,  &fullCol   );
     createParam( numTrainsString,  asynParamInt32,  &numTrains );
     createParam( numCyclesString,  asynParamInt32,  &numCycles );
     createParam( ccString,         asynParamInt32,  &cc        );
@@ -1184,12 +1177,12 @@ pgpEdt::pgpEdt( const char *portName, int board, int chan,
     createParam( reIniString,      asynParamInt32,  &reIni     );
 
     /* Set the fundamental parameters */
-    status  = setStringParam ( ADManufacturer, "SLAC CLCamera, to be updated" );
-    status |= setStringParam ( ADModel,        "Test Model, to be updated" );
-    status |= setIntegerParam( nbit,           numBits  );
-    status |= setIntegerParam( NDDataType,     dataType );
-    status |= setIntegerParam( ADMaxSizeX,     maxSizeX );
-    status |= setIntegerParam( ADMaxSizeY,     maxSizeY );
+    status  = setStringParam ( ADManufacturer,  "SLAC PgpEdt, to be updated" );
+    status |= setStringParam ( ADModel,         "Test Model, to be updated"  );
+    status |= setIntegerParam( nbit,            numBits        );
+    status |= setIntegerParam( NDDataType,      dataType       );
+    status |= setIntegerParam( ADMaxSizeX,      maxSizeX       );
+    status |= setIntegerParam( ADMaxSizeY,      maxSizeY       );
 
     if ( status )
     {
@@ -1215,7 +1208,7 @@ pgpEdt::pgpEdt( const char *portName, int board, int chan,
 
 /* Configuration command, called directly or from iocsh */
 extern "C" int pgpEdtConfig( const char *portName, int board, int channel,
-                             int maxSizeX, int maxSizeY, int numBits,
+                             int maxSizeX, int maxSizeY,   int numBits,
                              int dataType, int maxBuffers, int maxMemory,
                              int priority, int stackSize )
 {
@@ -1228,7 +1221,7 @@ extern "C" int pgpEdtConfig( const char *portName, int board, int channel,
                       (maxBuffers < 0) ? 0 : maxBuffers,
                       (maxMemory  < 0) ? 0 : maxMemory, priority, stackSize );
 
-    new pgpEdtSerial( serPort,  board, channel, 0, 1, 0, 0 );
+    new pgpEdtSerial( serPort,  board, channel, ASYN_CANBLOCK, 1, 0, 0 );
 
     return( asynSuccess );
 }

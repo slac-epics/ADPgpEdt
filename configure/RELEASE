@@ -1,28 +1,8 @@
-# RELEASE
-# Defines location of external products
+#RELEASE Location of external products
 # Run "gnumake clean uninstall install" in the application
 # top directory each time this file is changed.
--include $(TOP)/../configure/RELEASE_PATHS.local
--include $(TOP)/../configure/RELEASE_PATHS.local.$(EPICS_HOST_ARCH)
--include $(TOP)/../configure/RELEASE_LIBS.local
+
+-include $(TOP)/../configure/RELEASE_LIBS_INCLUDE
 -include $(TOP)/RELEASE.local
 -include $(TOP)/configure/RELEASE.local
 
-# Check for valid macro definitions for module release directories
-# You can add tests here to make sure RELEASE.local defined valid
-# macros for all the module dependencies
-ifeq ($(wildcard $(EPICS_BASE)/include),)
-$(error Invalid EPICS_BASE: $(EPICS_BASE))
-endif
-ifeq ($(wildcard $(ADCORE)/include),)
-$(error Invalid ADCORE: $(ADCORE))
-endif
-ifeq ($(wildcard $(ASYN)/include),)
-$(error Invalid ASYN: $(ASYN))
-endif
-ifeq ($(wildcard $(CALC)/include),)
-$(error Invalid CALC: $(CALC))
-endif
-ifeq ($(wildcard $(SSCAN)/include),)
-$(error Invalid SSCAN: $(SSCAN))
-endif

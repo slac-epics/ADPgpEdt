@@ -54,7 +54,7 @@ font "helvetica-bold-r-12.0"
 fgColor index 14
 bgColor index 56
 value {
-  "$(CAMERA):$(IMAGE)"
+  "$(CAMERA)"
 }
 endObjectProperties
 
@@ -114,7 +114,7 @@ offColor index 4
 inconsistentColor index 14
 topShadowColor index 0
 botShadowColor index 14
-controlPv "$(CAMERA):$(IMAGE):EnableCallbacks"
+controlPv "$(CAMERA):IMAGE1:EnableCallbacks"
 onLabel "Plugin Enabled"
 offLabel "Plugin Disabled"
 labelType "literal"
@@ -181,9 +181,9 @@ x 4
 y 48
 w 512
 h 512
-dataPvStr "$(CAMERA):$(IMAGE):ArrayData"
-widthPvStr "$(CAMERA):MaxSizeX_RBV"
-heightPvStr "$(CAMERA):MaxSizeY_RBV"
+dataPvStr "$(CAMERA):IMAGE1:ArrayData"
+widthPvStr "$(CAMERA):ArraySizeX_RBV"
+heightPvStr "$(CAMERA):ArraySizeY_RBV"
 dataWidth 512
 pvBasedDataSize 1
 nBitsPerPixel 12
@@ -635,7 +635,7 @@ x 626
 y 240
 w 95
 h 24
-controlPv "$(CAMERA):NumRow"
+controlPv "$(CAMERA):ArraySizeY_RBV"
 fgColor index 16
 bgColor index 12
 fill
@@ -674,7 +674,7 @@ x 626
 y 268
 w 95
 h 24
-controlPv "$(CAMERA):NumCol"
+controlPv "$(CAMERA):ArraySizeX_RBV"
 fgColor index 16
 bgColor index 12
 fill
@@ -800,9 +800,9 @@ major 4
 minor 0
 release 0
 x 524
-y 404
+y 396
 w 204
-h 104
+h 44
 lineColor index 3
 fill
 fillColor index 3
@@ -815,190 +815,34 @@ major 4
 minor 1
 release 0
 x 524
-y 396
-w 93
+y 408
+w 85
 h 24
 font "helvetica-bold-r-12.0"
 fgColor index 14
-bgColor index 3
-value {
-  " Software ROI"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 603
-y 416
-w 60
-h 24
-font "helvetica-medium-r-12.0"
-fgColor index 14
 bgColor index 0
 useDisplayBg
 value {
-  "Start At"
+  " Test Pattern"
 }
 endObjectProperties
 
-# (Static Text)
-object activeXTextClass
+# (Menu Button)
+object activeMenuButtonClass
 beginObjectProperties
 major 4
-minor 1
+minor 0
 release 0
-x 668
-y 416
-w 60
+x 626
+y 408
+w 95
 h 24
-font "helvetica-medium-r-12.0"
-fgColor index 14
-bgColor index 0
-useDisplayBg
-value {
-  "No Of"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 536
-y 444
-w 50
-h 24
-font "helvetica-medium-r-12.0"
-fgColor index 14
-bgColor index 0
-useDisplayBg
-value {
-  "Row"
-}
-endObjectProperties
-
-# (Text Control)
-object activeXTextDspClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 596
-y 444
-w 60
-h 24
-controlPv "$(CAMERA).SRRS"
-font "courier-bold-r-12.0"
-fontAlign "center"
 fgColor index 25
-bgColor index 3
-useDisplayBg
-editable
-motifWidget
-limitsFromDb
-nullColor index 18
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Text Control)
-object activeXTextDspClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 661
-y 444
-w 60
-h 24
-controlPv "$(CAMERA).SRRN"
+bgColor index 4
+inconsistentColor index 14
+topShadowColor index 1
+botShadowColor index 11
+controlPv "$(CAMERA):TestPattern"
 font "courier-bold-r-12.0"
-fontAlign "center"
-fgColor index 25
-bgColor index 3
-useDisplayBg
-editable
-motifWidget
-limitsFromDb
-nullColor index 18
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 536
-y 476
-w 50
-h 24
-font "helvetica-medium-r-12.0"
-fgColor index 14
-bgColor index 0
-useDisplayBg
-value {
-  "Column"
-}
-endObjectProperties
-
-# (Text Control)
-object activeXTextDspClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 596
-y 476
-w 60
-h 24
-controlPv "$(CAMERA).SRCS"
-font "courier-bold-r-12.0"
-fontAlign "center"
-fgColor index 25
-bgColor index 3
-useDisplayBg
-editable
-motifWidget
-limitsFromDb
-nullColor index 18
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Text Control)
-object activeXTextDspClass
-beginObjectProperties
-major 4
-minor 2
-release 0
-x 661
-y 476
-w 60
-h 24
-controlPv "$(CAMERA).SRCN"
-font "courier-bold-r-12.0"
-fontAlign "center"
-fgColor index 25
-bgColor index 3
-useDisplayBg
-editable
-motifWidget
-limitsFromDb
-nullColor index 18
-fastUpdate
-newPos
-objType "controls"
 endObjectProperties
 

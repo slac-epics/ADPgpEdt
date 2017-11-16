@@ -5,8 +5,8 @@ $(P)$(R)Pack
 $(P)$(R)VOut
 $(P)$(R)SkipRow
 $(P)$(R)SkipCol
-$(P)$(R)FullNRow
-$(P)$(R)FullNCol
+$(P)$(R)FullRow
+$(P)$(R)FullCol
 $(P)$(R)CC
 $(P)$(R)TrgPolarity
 $(P)$(R)EvrPrescale
@@ -20,4 +20,19 @@ $(P)$(R)CmdEVR
 $(P)$(R)CmdFree
 $(P)$(R)CmdTPtn
 $(P)$(R)ExposureMode
+
+$(P)$(R)MinX
+$(P)$(R)MinY
+$(P)$(R)SizeX
+$(P)$(R)SizeY
+$(P)$(R)ReverseX
+$(P)$(R)ReverseY
+$(P)$(R)TriggerMode
+
+$(P)$(R)TestPattern
+
+$(P)$(R)BL_SET
+$(P)$(R)GA_SET
+$(P)$(R)FP_SET
+$(P)$(R)IT_SET
 

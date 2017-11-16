@@ -3,6 +3,8 @@
 # Dehong Zhang
 # Sept 20, 2016
 
+include "ADBase.template"
+
 record(ao, "$(P)$(R)PixelSize")
 {
     field(DESC, "Pixel Size")
@@ -94,40 +96,24 @@ record(longout, "$(P)$(R)SkipCol")
     info( autosaveFields, "VAL" )
 }
 
-record(longout, "$(P)$(R)FullNRow")
+record(longout, "$(P)$(R)FullRow")
 {
     field(DESC, "Full Frame Number of Rows")
     field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))fullNRow")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))fullRow")
     field(VAL,  "1024")
     field(PINI, "YES")
     info( autosaveFields, "VAL" )
 }
 
-record(longout, "$(P)$(R)FullNCol")
+record(longout, "$(P)$(R)FullCol")
 {
     field(DESC, "Full Frame Number of Columns")
     field(DTYP, "asynInt32")
-    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))fullNCol")
+    field(OUT,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))fullCol")
     field(VAL,  "1024")
     field(PINI, "YES")
     info( autosaveFields, "VAL" )
-}
-
-record(longin, "$(P)$(R)NumRow")
-{
-    field(DESC, "Actual Number of Rows")
-    field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))numRow")
-    field(SCAN, "I/O Intr")
-}
-
-record(longin, "$(P)$(R)NumCol")
-{
-    field(DESC, "Actual Number of Columns")
-    field(DTYP, "asynInt32")
-    field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))numCol")
-    field(SCAN, "I/O Intr")
 }
 
 record(longin, "$(P)$(R)NumTrains")
@@ -231,6 +217,7 @@ record(longin, "$(P)$(R)FrameRate")
     field(DTYP, "asynInt32")
     field(INP,  "@asyn($(PORT),$(ADDR=0),$(TIMEOUT=1))frameRate")
     field(SCAN, "I/O Intr")
+    field(LSV,  "MINOR")
 }
 
 record(longin, "$(P)$(R)StatusWord")

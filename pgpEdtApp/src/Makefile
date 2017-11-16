@@ -11,9 +11,8 @@ DBD        += pgpEdtSupport.dbd
 LIB_SRCS   += pgpEdt.cpp
 LIB_SRCS   += pgpEdtSerial.cpp
 
-USR_INCLUDES += -I/reg/neh/home/dhzhang/FPGA/PgpCardG3/software_new/include
 
-include $(ADCORE)/ADApp/commonDriverMakefile
+include $(ADCORE)/ADApp/commonLibraryMakefile
 
 #=============================
 

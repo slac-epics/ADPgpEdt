@@ -19,7 +19,7 @@ ctlBgColor1 index 0
 ctlBgColor2 index 14
 topShadowColor index 0
 botShadowColor index 14
-title "CameraLink: $(CAMERA)"
+title "Expert Control: $(CAMERA)"
 showGrid
 snapToGrid
 gridSize 4
@@ -145,6 +145,9 @@ displayFileName {
 menuLabel {
   0 "Aux Settings"
 }
+setPosition {
+  0 "button"
+}
 symbols {
   0 "CAMERA=$(CAMERA)"
 }
@@ -173,6 +176,9 @@ displayFileName {
 }
 menuLabel {
   0 "Serial Commands"
+}
+setPosition {
+  0 "button"
 }
 endObjectProperties
 
@@ -307,7 +313,6 @@ fontAlign "center"
 fgColor index 25
 bgColor index 3
 useDisplayBg
-editable
 motifWidget
 limitsFromDb
 nullColor index 18
@@ -351,7 +356,6 @@ fontAlign "center"
 fgColor index 25
 bgColor index 3
 useDisplayBg
-editable
 motifWidget
 limitsFromDb
 nullColor index 18
@@ -515,7 +519,6 @@ fontAlign "center"
 fgColor index 25
 bgColor index 3
 useDisplayBg
-editable
 motifWidget
 limitsFromDb
 nullColor index 18
@@ -630,7 +633,7 @@ x 106
 y 204
 w 96
 h 24
-controlPv "$(CAMERA):FullNRow"
+controlPv "$(CAMERA):FullRow"
 font "courier-bold-r-12.0"
 fontAlign "center"
 fgColor index 25
@@ -674,7 +677,7 @@ x 310
 y 204
 w 96
 h 24
-controlPv "$(CAMERA):FullNCol"
+controlPv "$(CAMERA):FullCol"
 font "courier-bold-r-12.0"
 fontAlign "center"
 fgColor index 25
@@ -1635,7 +1638,6 @@ fontAlign "center"
 fgColor index 16
 bgColor index 12
 useDisplayBg
-editable
 motifWidget
 precision 1
 nullColor index 18
