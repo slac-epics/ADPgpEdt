@@ -14,6 +14,7 @@ include $(TOP)/configure/CONFIG
 # db templates
 DB += pgpEdt.template
 DB += OPAL1000.template
+DB += Cx-140xMCL-UV.template
 
 # Install archive files
 ARCHIVE += pgpEdt.tpl-arch

@@ -1,0 +1,342 @@
+# EPICS database for
+# Adimec OPAL 1000m CamLink Camera in 12 bit mode
+#
+# Protocol root must match db filename root, i.e. OPAL1000.proto
+
+record( stringin, "$(P)$(R)Model" )
+{
+    field( VAL,  "Cx-140xMCL-UV" )
+    field( PINI, "YES" )
+}
+
+#########################
+# Setting Functions
+#########################
+
+#########################
+# Image Format
+#########################
+
+record( mbbi, "$(P)$(R)BITALLOC_RBV" )
+{
+    field( DESC, "Bit Allocation" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(BA) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "8-bit"                    )
+    field( ONVL, 1   ) field( ONST, "10-bit"                   )
+    field( PINI, "YES" )
+}
+
+record( mbbo, "$(P)$(R)BITALLOC" )
+{
+    field( DESC, "Bit Allocation" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(BA) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "8-bit"                    )
+    field( ONVL, 1   ) field( ONST, "10-bit"                   )
+}
+
+record( mbbi, "$(P)$(R)SCANFMT_RBV" )
+{
+    field( DESC, "Scan Format" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(SC) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Full Frame"               )
+    field( ONVL, 1   ) field( ONST, "2/3 Partial"              )
+    field( TWVL, 2   ) field( TWST, "1/2 Partial"              )
+    field( THVL, 3   ) field( THST, "1/4 Partial"              )
+    field( FRVL, 4   ) field( FRST, "1/8 Partial"              )
+    field( PINI, "YES" )
+}
+
+record( mbbo, "$(P)$(R)SCANFMT" )
+{
+    field( DESC, "Scan Format" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(SC) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Full Frame"               )
+    field( ONVL, 1   ) field( ONST, "2/3 Partial"              )
+    field( TWVL, 2   ) field( TWST, "1/2 Partial"              )
+    field( THVL, 3   ) field( THST, "1/4 Partial"              )
+    field( FRVL, 4   ) field( FRST, "1/8 Partial"              )
+}
+
+record( mbbi, "$(P)$(R)VBINNING_RBV" )
+{
+    field( DESC, "V-Binning" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(VB) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "OFF"                      )
+    field( ONVL, 1   ) field( ONST, "ON"                       )
+    field( PINI, "YES" )
+}
+
+record( mbbo, "$(P)$(R)VBINNING" )
+{
+    field( DESC, "V-Binning" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(VB) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "OFF"                      )
+    field( ONVL, 1   ) field( ONST, "ON"                       )
+}
+
+#########################
+# Gain, Black and signal 
+#########################
+
+record( longout, "$(P)$(R)GAIN" )
+{
+    field( DESC, "Gain Level" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(GA) $(PORT).SER" )
+    field( HOPR, 336 )
+    field( DRVH, 336 )
+    field( LOPR, -84    )
+    field( DRVL, -84    )
+    field( FLNK, "$(P)$(R)GAIN_RBV" )
+	info( autosaveFields, "VAL" )
+	info( archiveFields,  "VAL" )
+}
+
+record( longin, "$(P)$(R)GAIN_RBV" )
+{
+    field( DESC, "Gain Level" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(GA) $(PORT).SER" )
+    field( PINI, "YES" )
+	info( archiveFields,  "VAL" )
+}
+
+record( longout, "$(P)$(R)BL" )
+{
+    field( DESC, "Black Level" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(BL) $(PORT).SER" )
+    field( HOPR, 1023 )
+    field( DRVH, 1023 )
+    field( LOPR, 0    )
+    field( DRVL, 0    )
+    field( FLNK, "$(P)$(R)BL_RBV" )
+	info( autosaveFields, "VAL" )
+	info( archiveFields,  "VAL" )
+}
+
+record( longin, "$(P)$(R)BL_RBV" )
+{
+    field( DESC, "Black Level" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(BL) $(PORT).SER" )
+    field( PINI, "YES" )
+	info( archiveFields,  "VAL" )
+}
+
+###########################
+# Save and Load from EEPROM
+###########################
+
+record( mbbo, "$(P)$(R)LOAD" )
+{
+    field( DESC, "Load Settings (from camera EEPROM)" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(LD) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Factory area"             )
+    field( ONVL, 1   ) field( ONST, "User 1 area"              )
+    field( TWVL, 2   ) field( TWST, "User 2 area"              )
+    field( THVL, 3   ) field( THST, "User 3 area"              )
+}
+
+record( mbbo, "$(P)$(R)SAVE" )
+{
+    field( DESC, "Save Settings (to camera EEPROM)" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(SA) $(PORT).SER" )
+    field( ONVL, 1   ) field( ONST, "User 1 area"              )
+    field( TWVL, 2   ) field( TWST, "User 2 area"              )
+    field( THVL, 3   ) field( THST, "User 3 area"              )
+}
+
+record( mbbo, "$(P)$(R)CURR_AREA" )
+{
+    field( DESC, "EEPROM Current Area Number Request" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(EA) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Factory area"             )
+    field( ONVL, 1   ) field( ONST, "User 1 area"              )
+    field( TWVL, 2   ) field( TWST, "User 2 area"              )
+    field( THVL, 3   ) field( THST, "User 3 area"              )
+    field( PINI, "YES")
+}
+
+#################################
+# General Settings and utilities
+#################################
+record( stringin, "$(P)$(R)MID_RBV" )
+{
+    field( DESC, "Firmware Version" )
+    field( DTYP, "stream" )
+    field( INP,	"@Cx-140xMCL-UV.proto GetInt(VN) $(PORT).SER" )
+    field( PINI, "YES" )
+}
+
+record( stringin, "$(P)$(R)CAMID_RBV" )
+{
+    field( DESC, "Camera ID" )
+    field( DTYP, "stream" )
+    field( INP,	"@Cx-140xMCL-UV.proto GetStr(ID) $(PORT).SER" )
+    field( PINI, "YES" )
+}
+
+record( stringin, "$(P)$(R)MID_RBV" )
+{
+    field( DESC, "Model ID" )
+    field( DTYP, "stream" )
+    field( INP,	"@Cx-140xMCL-UV.proto GetStr(MD) $(PORT).SER" )
+    field( PINI, "YES" )
+}
+
+####################
+# Shutter
+####################
+
+record( mbbi, "$(P)$(R)SHUTTER_MODE_RBV" )
+{
+    field( DESC, "Shutter Mode" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(SM) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Preset Shutter"           )
+    field( ONVL, 1   ) field( ONST, "Prog. Exposure"           )
+    field( PINI, "YES" )
+}
+
+record( mbbo, "$(P)$(R)SHUTTER_MODE" )
+{
+    field( DESC, "Shutter Mode" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(SM) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Preset Shutter"           )
+    field( ONVL, 1   ) field( ONST, "Prog. Exposure"           )
+}
+
+record( mbbi, "$(P)$(R)SHUTTER_PRESET_RBV" )
+{
+    field( DESC, "Preset Shutter" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(SH) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "OFF"                      )
+    field( ONVL, 1   ) field( ONST, "1/60"                     )
+    field( TWVL, 2   ) field( TWST, "1/100"                    )
+    field( THVL, 3   ) field( THST, "250"                      )
+    field( FRVL, 4   ) field( FRST, "500"                      )
+    field( FVVL, 5   ) field( FVST, "1000"                     )
+    field( SXVL, 6   ) field( SXST, "2000"                     )
+    field( SVVL, 7   ) field( SVST, "4000"                     )
+    field( EIVL, 8   ) field( EIST, "8000"                     )
+    field( NIVL, 9   ) field( NIST, "10000"                    )
+    field( PINI, "YES" )
+}
+
+record( mbbo, "$(P)$(R)SHUTTER_PRESET" )
+{
+    field( DESC, "Preset Shutter" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(SH) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "OFF"                      )
+    field( ONVL, 1   ) field( ONST, "1/60"                     )
+    field( TWVL, 2   ) field( TWST, "1/100"                    )
+    field( THVL, 3   ) field( THST, "250"                      )
+    field( FRVL, 4   ) field( FRST, "500"                      )
+    field( FVVL, 5   ) field( FVST, "1000"                     )
+    field( SXVL, 6   ) field( SXST, "2000"                     )
+    field( SVVL, 7   ) field( SVST, "4000"                     )
+    field( EIVL, 8   ) field( EIST, "8000"                     )
+    field( NIVL, 9   ) field( NIST, "10000"                    )
+}
+
+record( longout, "$(P)$(R)SHUTTER_EXPOSURE" )
+{
+    field( DESC, "Shutter Programmable Exposure" )
+    field( DTYP, "stream" )
+    field( OUT,  "@Cx-140xMCL-UV.proto SetInt(PE) $(PORT).SER" )
+    field( HOPR, 1052 )
+    field( DRVH, 1052 )
+    field( LOPR, 2    )
+    field( DRVL, 2    )
+    field( FLNK, "$(P)$(R)SHUTTER_EXPOSURE_RBV" )
+        info( autosaveFields, "VAL" )
+        info( archiveFields,  "VAL" )
+}
+
+record( longin, "$(P)$(R)SHUTTER_EXPOSURE_RBV" )
+{
+    field( DESC, "Shutter Programmable Exposure" )
+    field( DTYP, "stream" )
+    field( INP,  "@Cx-140xMCL-UV.proto GetInt(PE) $(PORT).SER" )
+    field( PINI, "YES" )
+        info( archiveFields,  "VAL" )
+}
+
+####################
+# Trigger 
+####################
+
+record( mbbi, "$(P)$(R)TRIGGER_MODE_RBV" )
+{
+    field( DESC, "Trigger Mode" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(TR) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Normal (Continuous)"      )
+    field( ONVL, 1   ) field( ONST, "EPS (Edge Pre Select)"    )
+    field( TWVL, 2   ) field( TWST, "PWC (Pulse Width Control" )
+    field( THVL, 3   ) field( THST, "RCT (Reset Continuous"    )
+    field( PINI, "YES" )
+}
+
+record( mbbo, "$(P)$(R)TRIGGER_MODE" )
+{
+    field( DESC, "Trigger Mode" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(TR) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Normal (Continuous)"      )
+    field( ONVL, 1   ) field( ONST, "EPS (Edge Pre Select)"    )
+    field( TWVL, 2   ) field( TWST, "PWC (Pulse Width Control" )
+    field( THVL, 3   ) field( THST, "RCT (Reset Continuous"    )
+}
+
+record( mbbi, "$(P)$(R)TRIGGER_POL_RBV" )
+{
+    field( DESC, "Trigger Polarity" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(TP) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Active Low"               )
+    field( ONVL, 1   ) field( ONST, "Active High"              )
+    field( PINI, "YES" )
+}
+
+record( mbbo, "$(P)$(R)TRIGGER_POL" )
+{
+    field( DESC, "Trigger Polarity" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(TR) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Active Low"               )
+    field( ONVL, 1   ) field( ONST, "Active High"              )
+}
+
+record( mbbi, "$(P)$(R)TRIGGER_INP_RBV" )
+{
+    field( DESC, "Trigger Input" )
+    field( DTYP, "stream" )
+    field( INP,	 "@Cx-140xMCL-UV.proto GetInt(TI) $(PORT).SER"  )
+    field( ZRVL, 0   ) field( ZRST, "Camera Link"               )
+    field( ONVL, 1   ) field( ONST, "Hirose 12pin"              )
+    field( PINI, "YES" )
+}
+
+record( mbbo, "$(P)$(R)TRIGGER_INP" )
+{
+    field( DESC, "Trigger Input" )
+    field( DTYP, "stream" )
+    field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(TR) $(PORT).SER" )
+    field( ZRVL, 0   ) field( ZRST, "Camera Link"               )
+    field( ONVL, 1   ) field( ONST, "Hirose 12pin"              )
+}
+

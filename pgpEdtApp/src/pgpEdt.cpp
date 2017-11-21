@@ -203,8 +203,8 @@ private:
 long pgpEdt::ser_send_recv( asynUser *pasynUser, const char *cmds,
                                                  char *reply,      int pass )
 {
-    int          ssusVal, ci, ti = 0;
-    char         sertfg[4], aval;
+    int          ssusVal, ci, ti = 0, eosSize=0;
+    char         sertfg[4], aval, eos[3], cmdsWithEos[90];
     epicsUInt32  rAddr;
 
     long         status = 1;
@@ -227,19 +227,23 @@ long pgpEdt::ser_send_recv( asynUser *pasynUser, const char *cmds,
                 break;
         }
     }
+    getInputEosOctet(pasynUser, eos, 3, &eosSize);
+    strcpy(cmdsWithEos, cmds);
+    strncat(cmdsWithEos, eos, eosSize);
 
     if ( pdev0 == -1 ) return( -1 );
 
+    // Check at 'cmds' as 'cmdsWithEos' now has more chars.
     if ( strlen(cmds) == 0 ) goto finished;
 
     getIntegerParam( ssus, &ssusVal );
 
     rAddr = SerSend_Addr + 4*channel;
 
-    for ( ci=0; ci<=strlen(cmds); ci++ )
+    for ( ci=0; ci<=strlen(cmdsWithEos); ci++ )
     {
-        if ( (ci < strlen(cmds)) && (*(cmds + ci) != 0x5F) )
-            aval = *(cmds + ci);
+        if ( (ci < strlen(cmdsWithEos)) && (*(cmdsWithEos + ci) != 0x5F) )
+            aval = *(cmdsWithEos + ci);
         else
             aval = 0x0D;
 
@@ -248,11 +252,11 @@ long pgpEdt::ser_send_recv( asynUser *pasynUser, const char *cmds,
         {
             asynPrint( pasynUser, ASYN_TRACE_ERROR,
                        "%s:%s, ser_send_recv: failed to send \"%s\"\n",
-                       driverName, portName, cmds );
+                       driverName, portName, cmdsWithEos );
             break;
         }
 
-        if ( (ci < strlen(cmds)) && (*(cmds + ci) == 0x5F) ) usleep( ssusVal );
+        if ( (ci < strlen(cmdsWithEos)) && (*(cmdsWithEos + ci) == 0x5F) ) usleep( ssusVal );
     }
 
     if ( status == 0 )

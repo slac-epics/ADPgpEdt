@@ -1,0 +1,39 @@
+#
+# jAi CM/CB-140 MCL & CM/CB-140PMCL UV Family Serial Protocol
+#
+# Messages end w/ CR LF 
+#
+# Transmit setting to camera:
+#     NN=[Parameter]<CR><LF> # (NN is any kind of command. Capital or small letters.) The camera answers:
+# The camera answers:
+#     COMPLETE<CR><LF>
+#
+# Transmit request command to camera:
+#     NN?<CR><LF> # (NN is any kind of command.)
+# The camera answers:
+#     NN=[Parameter]<CR><LF>
+#
+InTerminator	= CR LF;
+OutTerminator	= CR LF;
+ReplyTimeout	= 800;
+ReadTimeout	= 100;
+WriteTimeout	= 500;
+ExtraInput	= Ignore;
+
+GetStr
+{
+    out "\$1?";    in  "\$1=%#s";
+    @init { out "@\$1?";    in  "\$1=%#s"; }
+}
+
+GetInt
+{
+    out "\$1?";    in  "\$1=%d";
+    @init { out "\$1?";    in  "\$1=%d"; }
+}
+
+SetInt
+{
+    out "\$1=%d";   in  "COMPLETE";
+}
+
