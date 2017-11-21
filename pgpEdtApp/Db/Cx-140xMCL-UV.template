@@ -155,7 +155,7 @@ record( mbbo, "$(P)$(R)SAVE" )
     field( THVL, 3   ) field( THST, "User 3 area"              )
 }
 
-record( mbbo, "$(P)$(R)CURR_AREA" )
+record( mbbi, "$(P)$(R)CURR_AREA_RBV" )
 {
     field( DESC, "EEPROM Current Area Number Request" )
     field( DTYP, "stream" )
@@ -170,7 +170,7 @@ record( mbbo, "$(P)$(R)CURR_AREA" )
 #################################
 # General Settings and utilities
 #################################
-record( stringin, "$(P)$(R)MID_RBV" )
+record( stringin, "$(P)$(R)FID_RBV" )
 {
     field( DESC, "Firmware Version" )
     field( DTYP, "stream" )
