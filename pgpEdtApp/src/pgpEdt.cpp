@@ -970,7 +970,7 @@ void pgpEdt::acqTask()
 
         if      ( (nBit == 24) && (pack16 == pgpEdtPack_24) ) {}
         else if ( (nBit >  12) && (pack16 == pgpEdtPack_16) ) {}
-        else if ( (nBit == 12) && (pack16 == pgpEdtPack_16) )
+        else if ( (nBit <= 12) && (pack16 == pgpEdtPack_16) )
         {
             ir = 4 + sRow * tCol / 2;
 
