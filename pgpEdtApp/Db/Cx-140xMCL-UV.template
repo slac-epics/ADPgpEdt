@@ -34,6 +34,7 @@ record( mbbo, "$(P)$(R)BITALLOC" )
     field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(BA) $(PORT).SER" )
     field( ZRVL, 0   ) field( ZRST, "8-bit"                    )
     field( ONVL, 1   ) field( ONST, "10-bit"                   )
+    field( FLNK, "$(P)$(R)BITALLOC_RBV" )
 }
 
 record( mbbi, "$(P)$(R)SCANFMT_RBV" )
@@ -59,6 +60,7 @@ record( mbbo, "$(P)$(R)SCANFMT" )
     field( TWVL, 2   ) field( TWST, "1/2 Partial"              )
     field( THVL, 3   ) field( THST, "1/4 Partial"              )
     field( FRVL, 4   ) field( FRST, "1/8 Partial"              )
+    field( FLNK, "$(P)$(R)SCANFMT_RBV" )
 }
 
 record( mbbi, "$(P)$(R)VBINNING_RBV" )
@@ -78,6 +80,7 @@ record( mbbo, "$(P)$(R)VBINNING" )
     field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(VB) $(PORT).SER" )
     field( ZRVL, 0   ) field( ZRST, "OFF"                      )
     field( ONVL, 1   ) field( ONST, "ON"                       )
+    field( FLNK, "$(P)$(R)VBINNING_RBV" )
 }
 
 #########################
@@ -143,6 +146,7 @@ record( mbbo, "$(P)$(R)LOAD" )
     field( ONVL, 1   ) field( ONST, "User 1 area"              )
     field( TWVL, 2   ) field( TWST, "User 2 area"              )
     field( THVL, 3   ) field( THST, "User 3 area"              )
+    field( FLNK, "$(P)$(R)ReConfigSeq" )
 }
 
 record( mbbo, "$(P)$(R)SAVE" )
@@ -153,6 +157,7 @@ record( mbbo, "$(P)$(R)SAVE" )
     field( ONVL, 1   ) field( ONST, "User 1 area"              )
     field( TWVL, 2   ) field( TWST, "User 2 area"              )
     field( THVL, 3   ) field( THST, "User 3 area"              )
+    field( FLNK, "$(P)$(R)CURR_AREA_RBV" )
 }
 
 record( mbbi, "$(P)$(R)CURR_AREA_RBV" )
@@ -174,7 +179,7 @@ record( stringin, "$(P)$(R)FID_RBV" )
 {
     field( DESC, "Firmware Version" )
     field( DTYP, "stream" )
-    field( INP,	"@Cx-140xMCL-UV.proto GetInt(VN) $(PORT).SER" )
+    field( INP,	"@Cx-140xMCL-UV.proto GetStr(VN) $(PORT).SER" )
     field( PINI, "YES" )
 }
 
@@ -215,6 +220,7 @@ record( mbbo, "$(P)$(R)SHUTTER_MODE" )
     field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(SM) $(PORT).SER" )
     field( ZRVL, 0   ) field( ZRST, "Preset Shutter"           )
     field( ONVL, 1   ) field( ONST, "Prog. Exposure"           )
+    field( FLNK, "$(P)$(R)SHUTTER_MODE_RBV" )
 }
 
 record( mbbi, "$(P)$(R)SHUTTER_PRESET_RBV" )
@@ -250,6 +256,7 @@ record( mbbo, "$(P)$(R)SHUTTER_PRESET" )
     field( SVVL, 7   ) field( SVST, "4000"                     )
     field( EIVL, 8   ) field( EIST, "8000"                     )
     field( NIVL, 9   ) field( NIST, "10000"                    )
+    field( FLNK, "$(P)$(R)SHUTTER_PRESET_RBV" )
 }
 
 record( longout, "$(P)$(R)SHUTTER_EXPOSURE" )
@@ -300,6 +307,7 @@ record( mbbo, "$(P)$(R)TRIGGER_MODE" )
     field( ONVL, 1   ) field( ONST, "EPS (Edge Pre Select)"    )
     field( TWVL, 2   ) field( TWST, "PWC (Pulse Width Control" )
     field( THVL, 3   ) field( THST, "RCT (Reset Continuous"    )
+    field( FLNK, "$(P)$(R)TRIGGER_MODE_RBV" )
 }
 
 record( mbbi, "$(P)$(R)TRIGGER_POL_RBV" )
@@ -319,6 +327,7 @@ record( mbbo, "$(P)$(R)TRIGGER_POL" )
     field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(TR) $(PORT).SER" )
     field( ZRVL, 0   ) field( ZRST, "Active Low"               )
     field( ONVL, 1   ) field( ONST, "Active High"              )
+    field( FLNK, "$(P)$(R)TRIGGER_POL_RBV" )
 }
 
 record( mbbi, "$(P)$(R)TRIGGER_INP_RBV" )
@@ -338,5 +347,30 @@ record( mbbo, "$(P)$(R)TRIGGER_INP" )
     field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(TR) $(PORT).SER" )
     field( ZRVL, 0   ) field( ZRST, "Camera Link"               )
     field( ONVL, 1   ) field( ONST, "Hirose 12pin"              )
+    field( FLNK, "$(P)$(R)TRIGGER_INP_RBV" )
+}
+
+
+record( seq, "$(P)$(R)ReConfigSeq" )
+{
+        field ( DLY1, 0 ) field( DOL1, "1" )  field( LNK1, "$(P)$(R)BITALLOC_RBV.PROC" )
+        field ( DLY2, 0 ) field( DOL2, "1" )  field( LNK2, "$(P)$(R)SCANFMT_RBV.PROC" )
+        field ( DLY3, 0 ) field( DOL3, "1" )  field( LNK3, "$(P)$(R)VBINNING_RBV.PROC" )
+        field ( DLY4, 0 ) field( DOL4, "1" )  field( LNK4, "$(P)$(R)GAIN_RBV.PROC" )
+        field ( DLY5, 0 ) field( DOL5, "1" )  field( LNK5, "$(P)$(R)BL_RBV.PROC" )
+        field ( DLY6, 0 ) field( DOL6, "1" )  field( LNK6, "$(P)$(R)CURR_AREA_RBV.PROC" )
+        field ( DLY7, 0 ) field( DOL7, "1" )  field( LNK7, "$(P)$(R)FID_RBV.PROC" )
+        field ( DLY8, 0 ) field( DOL8, "1" )  field( LNK8, "$(P)$(R)CAMID_RBV.PROC" )
+        field ( DLY9, 0 ) field( DOL9, "1" )  field( LNK9, "$(P)$(R)MID_RBV.PROC" )
+        field ( DLYA, 0 ) field( DOLA, "1" )  field( LNKA, "$(P)$(R)SHUTTER_MODE_RBV.PROC" )
+        field( FLNK, "$(P)$(R)ReConfigSeq2" )
+}
+record( seq, "$(P)$(R)ReConfigSeq2" )
+{
+        field ( DLY1, 0 ) field( DOL1, "1" )  field( LNK1, "$(P)$(R)SHUTTER_PRESET_RBV.PROC" )
+        field ( DLY2, 0 ) field( DOL2, "1" )  field( LNK2, "$(P)$(R)SHUTTER_EXPOSURE_RBV.PROC" )
+        field ( DLY3, 0 ) field( DOL3, "1" )  field( LNK3, "$(P)$(R)TRIGGER_MODE_RBV.PROC" )
+        field ( DLY4, 0 ) field( DOL4, "1" )  field( LNK4, "$(P)$(R)TRIGGER_POL_RBV.PROC" )
+        field ( DLY5, 0 ) field( DOL5, "1" )  field( LNK5, "$(P)$(R)TRIGGER_INP_RBV.PROC" )
 }
 
