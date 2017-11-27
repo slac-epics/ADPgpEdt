@@ -22,8 +22,8 @@ record( mbbi, "$(P)$(R)BITALLOC_RBV" )
     field( DESC, "Bit Allocation" )
     field( DTYP, "stream" )
     field( INP,	 "@Cx-140xMCL-UV.proto GetInt(BA) $(PORT).SER" )
-    field( ZRVL, 0   ) field( ZRST, "8-bit"                    )
-    field( ONVL, 1   ) field( ONST, "10-bit"                   )
+    field( ZRVL, 0   ) field( ZRST, "10-bit"                    )
+    field( ONVL, 1   ) field( ONST, "8-bit"                   )
     field( PINI, "YES" )
 }
 
@@ -32,8 +32,8 @@ record( mbbo, "$(P)$(R)BITALLOC" )
     field( DESC, "Bit Allocation" )
     field( DTYP, "stream" )
     field( OUT,	 "@Cx-140xMCL-UV.proto SetInt(BA) $(PORT).SER" )
-    field( ZRVL, 0   ) field( ZRST, "8-bit"                    )
-    field( ONVL, 1   ) field( ONST, "10-bit"                   )
+    field( ZRVL, 0   ) field( ZRST, "10-bit"                    )
+    field( ONVL, 1   ) field( ONST, "8-bit"                   )
     field( FLNK, "$(P)$(R)BITALLOC_RBV" )
 }
 
