@@ -932,7 +932,7 @@ onColor index 4
 offColor index 4
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(CAMERA):GAIN_RBV.PROC"
+controlPv "$(CAMERA):GA_RBV.PROC"
 pressValue "1"
 releaseValue "0"
 onLabel "Update"
@@ -951,7 +951,7 @@ x 300
 y 568
 w 106
 h 24
-controlPv "$(CAMERA):GAIN_RBV"
+controlPv "$(CAMERA):GA_RBV"
 font "courier-bold-r-12.0"
 fontAlign "center"
 fgColor index 16
@@ -1005,7 +1005,7 @@ x 106
 y 540
 w 106
 h 24
-controlPv "$(CAMERA):BL"
+controlPv "$(CAMERA):BL_SET"
 font "courier-bold-r-12.0"
 fontAlign "center"
 fgColor index 25
@@ -1031,7 +1031,7 @@ x 106
 y 568
 w 106
 h 24
-controlPv "$(CAMERA):GAIN"
+controlPv "$(CAMERA):GA_SET"
 font "courier-bold-r-12.0"
 fontAlign "center"
 fgColor index 25
