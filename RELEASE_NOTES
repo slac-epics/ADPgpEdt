@@ -1,6 +1,9 @@
 #
 # SLAC RELEASE_NOTES
 #
+R1.0.0-1.0.0 2017-11-29  slepicka
+	- Changed prescale value to 186 for LCLS-II Timing.
+
 R1.0.0 2017-11-29  slepicka
 	- Added support for jAi CM-140-MCL-UV.
         - Fixed readout code to allow < 12bit cameras.
