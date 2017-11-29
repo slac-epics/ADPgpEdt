@@ -17,6 +17,12 @@ This driver has been tested for linux-x86_64 on RHEL-5,
 rhel6-x86_64 on RHEL6, for linuxRT_glibc_x86_64 and
 linuxRT-x86_64 (Buildroot 2016.11.1)
 
+Linux Kernel Module:
+---------------------
+This Epics Module should be used with the following version of the
+pgpcard kernel module:
+/afs/slac/g/lcls/package/linuxKernel_Modules/pgpcard-clink/R3.0.0
+
 Current Status:
 -------------------
 - As of this version, the Hardware ROI is still unstable and should not be used

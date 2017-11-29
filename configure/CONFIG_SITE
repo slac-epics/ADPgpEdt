@@ -43,7 +43,7 @@ endif
 
 
 # Pgp Frame Grabber Linux Kernel Module
-PGPCARD_TOP=$(PACKAGE_SITE_TOP)/linuxKernel_Modules/pgpcard-clink/pgpcard-clink-latest/
+PGPCARD_TOP=$(PACKAGE_SITE_TOP)/linuxKernel_Modules/pgpcard-clink/R3.0.0
 PGPCARD_INCLUDE=$(PGPCARD_TOP)/$(PKG_ARCH)/include
 
 USR_INCLUDES+=-I$(PGPCARD_INCLUDE)
