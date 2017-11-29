@@ -1,0 +1,14 @@
+#
+# SLAC RELEASE_NOTES
+#
+R1.0.0 2017-11-29  slepicka
+	- Added support for jAi CM-140-MCL-UV.
+        - Fixed readout code to allow < 12bit cameras.
+        - Hardware ROI is still not working properly and can cause Segmentation Faults.
+        - Bumped modules version to:
+            - Asyn:      R4.31-0.1.0
+            - Busy:      R1.6.1-0.2.4
+            - Calc:      R3.6.1-0.1.0
+            - SScan:     R2.10.2-0.1.0
+            - ADSupport: R1.1-0.1.0
+            - ADCore:    R2.6-1.0.0

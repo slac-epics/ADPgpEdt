@@ -1,0 +1,29 @@
+#==============================================================
+#
+#  Name: README
+#
+#  Rem:	This is a driver for the SLAC PGP frame grabber with support
+#		for various cameras compatible with the camera-link interface.
+#
+#==============================================================
+#
+EPICS Verions:
+--------------
+This driver has currently been built and tested at SLAC with EPICS 3.15.5
+
+Operating System:
+-------------------
+This driver has been tested for linux-x86_64 on RHEL-5,
+rhel6-x86_64 on RHEL6, for linuxRT_glibc_x86_64 and
+linuxRT-x86_64 (Buildroot 2016.11.1)
+
+Current Status:
+-------------------
+- As of this version, the Hardware ROI is still unstable and should not be used
+unless otherwise instructed.
+- Segmentation Faults can happen in case the requested readout is larger than the
+image sent by the camera.
+- Officially supporting Adimec OPAL1000 & jAi Cx-140xMCL-UV. Other cameras such as UNIQ
+are known to work but without full support.
+- jAi Cx-140xMCL-UV has no test pattern as informed by the vendor.
+
