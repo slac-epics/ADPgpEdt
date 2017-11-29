@@ -924,6 +924,15 @@ void pgpEdt::acqTask()
         getIntegerParam( NDArraySizeY, &nRow   );
         getIntegerParam( NDArraySizeX, &nCol   );
 
+	// Protection against weird issue where
+	// Row or Col are set to 0...
+	if (nRow <= 0)
+	    nRow = 1;
+
+        if (nCol <= 0)
+            nCol = 1;
+         
+
         tCol = sCol + nCol;
         rdat = (epicsUInt32 *)rbuf;
 
