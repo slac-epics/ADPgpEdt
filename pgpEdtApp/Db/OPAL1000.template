@@ -113,6 +113,28 @@ record( longin, "$(P)$(R)GA_RBV" )
 	info( archiveFields,  "VAL" )
 }
 
+record( ao, "$(P)$(R)GAIN" )
+{
+    field(DESC, "EPICS Gain Output")
+    field(PINI, "YES")
+    field(DTYP, "Raw Soft Channel")
+    field(OUT, "$(P)$(R)GA_SET PP")
+    field(OMSL, "supervisory")
+    field(OIF, "Full")
+    field(LINR, "LINEAR")
+    field(EGUF, "3200")
+    field(EGUL, "100")
+    field(ESLO, "0.03225806")
+    field(DRVH, "100")
+    field(DRVL, "0")
+    field(HOPR, "100")
+    field(LOPR, "0")
+    field(AOFF, "-100")
+    field(ASLO, "1")
+    info(autosaveFields, "VAL")
+}
+    
+
 # Set the acquire period, the rep rate for image capture
 # Only works in FreeRun trigger mode
 # Argument is an integer in units of 10us

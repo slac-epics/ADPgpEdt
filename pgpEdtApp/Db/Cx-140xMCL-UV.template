@@ -143,6 +143,27 @@ record( longin, "$(P)$(R)GA_RBV" )
 	info( archiveFields,  "VAL" )
 }
 
+record( ao, "$(P)$(R)GAIN" )
+{
+    field(DESC, "EPICS Gain Output")
+    field(PINI, "YES")
+    field(DTYP, "Raw Soft Channel")
+    field(OUT, "$(P)$(R)GA_SET PP")
+    field(OMSL, "supervisory")
+    field(OIF, "Full")
+    field(LINR, "LINEAR")
+    field(EGUF, "336")
+    field(EGUL, "-84")
+    field(ESLO, "0.23809524")
+    field(DRVH, "100")
+    field(DRVL, "0")
+    field(HOPR, "100")
+    field(LOPR, "0")
+    field(AOFF, "84")
+    field(ASLO, "1")
+    info(autosaveFields, "VAL")
+}
+
 record( longout, "$(P)$(R)BL_SET" )
 {
     field( DESC, "Black Level" )

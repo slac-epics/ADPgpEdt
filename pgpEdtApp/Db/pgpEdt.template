@@ -3,7 +3,7 @@
 # Dehong Zhang
 # Sept 20, 2016
 
-include "db/ADBase.template"
+include "ADBase.template"
 
 record(ao, "$(P)$(R)PixelSize")
 {

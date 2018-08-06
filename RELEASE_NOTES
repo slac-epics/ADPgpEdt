@@ -1,6 +1,15 @@
 #
 # SLAC RELEASE_NOTES
 #
+R1.0.1 2018-08-06  jmock
+  - Modified pgpEdt.template to: include "ADBase.template"
+                     instead of: include "db/ADBase.template"
+  - Add :GAIN record to OPAL1000.template and Cx-140xMCL-UV.template
+    - This record is AO ranging from 0-100.  Selecting 0 pushes the smallest value
+      to each camera's respective :GA_SET value and putting 100 pushes the largest
+      value to each camera's respective :GA_SET value.  This is a user request to
+      make digital gain standard across cameras.
+
 R1.0.0 2017-11-29  slepicka
 	- Added support for jAi CM-140-MCL-UV.
         - Fixed readout code to allow < 12bit cameras.
