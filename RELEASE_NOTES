@@ -1,6 +1,10 @@
 #
 # SLAC RELEASE_NOTES
 #
+R1.1.0 2018-08-07  jmock
+  - Merged changes from Branch R1.0.0-1.branch back into slac-master
+  - Timing prescale enum has 3 choices: 1, 119, 186 
+
 R1.0.1 2018-08-06  jmock
   - Modified pgpEdt.template to: include "ADBase.template"
                      instead of: include "db/ADBase.template"
@@ -9,6 +13,12 @@ R1.0.1 2018-08-06  jmock
       to each camera's respective :GA_SET value and putting 100 pushes the largest
       value to each camera's respective :GA_SET value.  This is a user request to
       make digital gain standard across cameras.
+
+R1.0.0-1.1.0 2018-08-02  slepicka
+	- Fixed the calculation of SIZEY for the jAi CM-140-MCL-UV camera.
+
+R1.0.0-1.0.0 2017-11-29  slepicka
+	- Changed prescale value to 186 for LCLS-II Timing.
 
 R1.0.0 2017-11-29  slepicka
 	- Added support for jAi CM-140-MCL-UV.

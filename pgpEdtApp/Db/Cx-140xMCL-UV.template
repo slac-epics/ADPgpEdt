@@ -469,11 +469,11 @@ record( calcout, "$(P)$(R)SCANFMT_FLOAT" )
 record( calcout, "$(P)$(R)SIZEY_CALC" )
 {
         field( DESC, "Calc height based on bin and scanfmt" )
-        field( INPA, "$(P)$(R)MaxSizeY_RBV" )
+        field( INPA, "$(P)$(R)MaxSizeY_RBV CP" )
         field( INPB, "$(P)$(R)SCANFMT_FLOAT CP" )
         field( INPC, "$(P)$(R)VBINNING_RBV.RVAL CP" )
         field( CALC, "C=1?CEIL(A/2.0):CEIL(A*B)" )
-        field( OOPT, "Every Time" ) 
+        field( OOPT, “When Non-zero” ) 
         field( OUT, "$(P)$(R)FullRow PP" )
 }
 
