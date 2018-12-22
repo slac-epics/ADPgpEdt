@@ -20,8 +20,6 @@
 # could match a directory name.
 # ==========================================================
 ASYN_MODULE_VERSION   = R4.31-0.1.0
-BUSY_MODULE_VERSION   = R1.6.1-0.2.4
-SSCAN_MODULE_VERSION  = R2.10.2-0.1.0
 ADSUPPORT_MODULE_VERSION  = R1.1-0.1.0
 ADCORE_MODULE_VERSION = R2.6-1.0.0
 
@@ -32,8 +30,6 @@ ADCORE_MODULE_VERSION = R2.6-1.0.0
 # FOO = /Full/Path/To/Development/Version 
 # ==========================================================
 ASYN   = $(EPICS_MODULES)/asyn/$(ASYN_MODULE_VERSION)
-BUSY   = $(EPICS_MODULES)/busy/$(BUSY_MODULE_VERSION)
-SSCAN  = $(EPICS_MODULES)/sscan/$(SSCAN_MODULE_VERSION)
 ADSUPPORT = $(EPICS_MODULES)/ADSupport/$(ADSUPPORT_MODULE_VERSION)
 ADCORE = $(EPICS_MODULES)/ADCore/$(ADCORE_MODULE_VERSION)
 
