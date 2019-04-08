@@ -1,6 +1,12 @@
 #
 # SLAC RELEASE_NOTES
 #
+R1.1.1 2019-04-08  slepicka
+  - Removed unused modules from RELEASE.local
+  - Bumped modules version to:
+      - ADSupport: R1.1-0.1.1
+      - ADCore: R3.1-2.3.1
+
 R1.1.0 2018-08-07  jmock
   - Merged changes from Branch R1.0.0-1.branch back into slac-master
   - Timing prescale enum has 3 choices: 1, 119, 186 
