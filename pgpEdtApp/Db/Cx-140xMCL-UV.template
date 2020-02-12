@@ -473,7 +473,7 @@ record( calcout, "$(P)$(R)SIZEY_CALC" )
         field( INPB, "$(P)$(R)SCANFMT_FLOAT CP" )
         field( INPC, "$(P)$(R)VBINNING_RBV.RVAL CP" )
         field( CALC, "C=1?CEIL(A/2.0):CEIL(A*B)" )
-        field( OOPT, “When Non-zero” ) 
+        field( OOPT, "When Non-zero" ) 
         field( OUT, "$(P)$(R)FullRow PP" )
 }
 
