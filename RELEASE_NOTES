@@ -1,6 +1,11 @@
 #
 # SLAC RELEASE_NOTES
 #
+R1.1.2 2020-08-03  scondam
+  - Bumped modules version to:
+      - asyn: R4.32-1.0.0
+      - ADCore: R3.1-2.3.3
+	  
 R1.1.1 2019-04-08  slepicka
   - Removed unused modules from RELEASE.local
   - Bumped modules version to:
