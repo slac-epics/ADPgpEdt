@@ -1,6 +1,12 @@
 #
 # SLAC RELEASE_NOTES
 #
+R1.1.3 2022-02-22  egumtow
+  - Bumped modules:
+      - ASYN R4.39-1.0.1
+      - ADSUPPORT R1.9-0.1.0
+      - ADCORE R3.9-1.0.3
+
 R1.1.2 2020-08-03  scondam
   - Bumped modules version to:
       - asyn: R4.32-1.0.0
