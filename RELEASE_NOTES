@@ -1,6 +1,10 @@
 #
 # SLAC RELEASE_NOTES
 #
+R1.1.5 2022-04-07  jvamosi
+  - Bumped module:
+      - ADCORE: R3.9-1.1.0
+
 R1.1.4 2022-03-15  jvamosi
   - Bumped modules version for rhel7 to:
       - pgpcard-clink: R3.0.1
