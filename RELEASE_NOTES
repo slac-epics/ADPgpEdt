@@ -1,6 +1,9 @@
 #
 # SLAC RELEASE_NOTES
-#
+
+R1.1.6  2023-07-20  mdunning
+    - Update ADCORE to R3.10-1.1.0
+
 R1.1.5 2022-04-07  jvamosi
   - Bumped module:
       - ADCORE: R3.9-1.1.0
