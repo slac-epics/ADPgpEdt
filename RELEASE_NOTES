@@ -1,6 +1,11 @@
 #
 # SLAC RELEASE_NOTES
 
+R1.1.7  2025-08-29  marcio
+        - Removed unnecessary CONFIG_SITE.Common.rhel* files and added rule to
+          work with host architecture automatically.
+        - Upgraded modules.
+
 R1.1.6  2023-07-20  mdunning
     - Update ADCORE to R3.10-1.1.0
 
