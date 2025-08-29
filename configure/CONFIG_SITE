@@ -21,6 +21,10 @@ CHECK_RELEASE = YES
 #   that Base is built for.
 CROSS_COMPILER_TARGET_ARCHS = linuxRT-x86_64
 
+ifdef T_A
+PKG_ARCH=$(T_A)
+endif
+
 # To install files into a location other than $(TOP) define
 #   INSTALL_LOCATION here.
 #INSTALL_LOCATION=</path/name/to/install/top>
